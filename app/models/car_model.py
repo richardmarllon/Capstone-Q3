@@ -2,12 +2,12 @@ from app.configs.database import db
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy import Column, Integer, Date, String, ForeignKey
 
-class CarModel(db.model):
+class CarModel(db.Model):
     __tablename__ = "car"
 
     id = Column(Integer, primary_key=True)
 
-    year = Column(Integer(4), nullable=False)
+    year = Column(Integer, nullable=False)
     car_plate = Column(String(11), nullable=False)
     model = Column(String(20), nullable=False)
     trunk_volume: Column(Integer, default=None)

@@ -2,7 +2,7 @@ from app.configs.database import db
 from sqlalchemy import Column, Integer, String, Text
 from werkzeug.security import check_password_hash, generate_password_hash
 
-class UserLocatorModel(db.model):
+class UserLocatorModel(db.Model):
     __tablename__ = "user_locator"
 
     id = Column(Integer, primary_key=True)
