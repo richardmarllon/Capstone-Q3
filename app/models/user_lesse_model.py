@@ -26,7 +26,7 @@ class UserLesseModel(db.Model):
     state = Column(String(2), nullable=False)
     cnh = Column(Text, nullable=False)
 
-    cpf_encrypt = Column(String(14), nullable=False, unique=True)
+    cpf_encrypt = Column(String(255), nullable=False, unique=True)
     password_hash = Column(String(), nullable=False)
 
     @property
