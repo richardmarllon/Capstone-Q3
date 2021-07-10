@@ -9,6 +9,8 @@ def init_app(app: Flask) -> None:
 
     from app.models.car_model import CarModel
     from app.models.user_locator_model import UserLocatorModel
+    from app.models.record_lesse_model import RecordLesseModel
+    from app.models.user_lesse_model import UserLesseModel
 
 
 
