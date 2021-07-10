@@ -4,7 +4,7 @@ from flask import Blueprint, request, jsonify
 from http import HTTPStatus
 from app.exc.incorrect_keys_error import IncorrectKeysError
 from app.models.user_lesse_model import UserLesseModel
-from app.services.user_lesse_services import post_user_lesse_by_data
+from app.services.user_lesse_services import post_user_lesse_by_data, search_user_lesse_by_cpf
 import ipdb
 
 bp = Blueprint("lesse",__name__, url_prefix="/lesse")
@@ -40,5 +40,15 @@ def del_user_lesse_delete(user_id: int):
 
 @bp.get("/user")
 def get_user_lesse():
-    ...
+    cpf_to_search = request.get_json()
+    try:
+        return search_user_lesse_by_cpf(cpf_to_search)
+        
+    except IncorrectKeysError as err:
+        return err.message
+        
+    except KeyError as err:
+        return {"message": "User not found"}, HTTPStatus.NOT_FOUND
+
+    
 
