@@ -1,7 +1,6 @@
-from sqlalchemy.sql.expression import text
 from app.configs.database import db
 from werkzeug.security import generate_password_hash, check_password_hash
-from sqlalchemy import Column, Integer, String, Text, Unicode
+from sqlalchemy import Column, Integer, String, Text
 from dataclasses import dataclass
 
 @dataclass
@@ -14,7 +13,7 @@ class UserLesseModel(db.Model):
     cnh: str
     cpf_encrypt: str
     password_hash: str
-    
+
 
     __tablename__ = "user_lesse"
 
