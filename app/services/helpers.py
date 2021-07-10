@@ -1,7 +1,8 @@
 from flask import current_app
 from app.exc.incorrect_keys_error import IncorrectKeysError
-
+from werkzeug.security import generate_password_hash
 import re
+import pyDes
 
 def add_in_db(data) -> None:
     session = get_current_session()
@@ -39,3 +40,15 @@ def format_cpf(data):
 
 def format_name(data):
     return
+
+def criptography_string(data):
+    key = current_app.config["CRIPTOGRAPHY_SECRET_KEY"]
+    k = pyDes.des("DESCRYPT", pyDes.CBC, str(key), pad=None, padmode=pyDes.PAD_PKCS5)
+    string_criptographed = str(k.encrypt(data))
+    return string_criptographed
+
+def decriptography_string(data):
+    key = current_app.config["CRIPTOGRAPHY_SECRET_KEY"]
+    k = pyDes.des("DESCRYPT", pyDes.CBC, str(key), pad=None, padmode=pyDes.PAD_PKCS5)
+    string_criptographed = "a"
+    return string_criptographed
