@@ -1,6 +1,6 @@
 from re import search
 from app.models.user_lesse_model import UserLesseModel
-from app.services.helpers import add_in_db, check_incorrect_keys, format_cpf, criptography_string, delete_in_db
+from app.services.helpers import add_in_db, check_incorrect_keys, format_cpf, criptography_string, delete_in_db, commit_current_session
 from http import HTTPStatus
 import ipdb
 
@@ -48,8 +48,33 @@ def delete_user_lesse_by_id(id: int):
     delete_in_db(user_to_delete)
     
     return "", HTTPStatus.NO_CONTENT
-    ...
 
+def update_user_less_by_id(id: int, data: dict):
+    user_to_update = UserLesseModel.query.filter_by(id=id).first()
+
+    if data['cpf']:
+        cpf_to_encrypt = format_cpf(data)
+        cpf_encrypted = criptography_string(cpf_to_encrypt)
+        data.pop("cpf")
+        data["cpf_encrypt"] = cpf_encrypted
+        # ipdb.set_trace()
+    
+    data.pop('password')
+    
+    keys = [key for key,value in data.items()]
+    # for key in keys:
+    # criar um outro dicionário com a instancia e depois fazer um upgrade pelo o que veio.
+    user_to_update.update(data)
+    ipdb.set_trace()
+    
+  
+    # ipdb.set_trace()
+
+
+
+    
+    return
+    ...
 
 
 

@@ -4,7 +4,7 @@ from flask import Blueprint, request, jsonify
 from http import HTTPStatus
 from app.exc.incorrect_keys_error import IncorrectKeysError
 from app.models.user_lesse_model import UserLesseModel
-from app.services.user_lesse_services import post_user_lesse_by_data, search_user_lesse_by_cpf, delete_user_lesse_by_id
+from app.services.user_lesse_services import post_user_lesse_by_data, search_user_lesse_by_cpf, delete_user_lesse_by_id, update_user_less_by_id
 import ipdb
 
 bp = Blueprint("lesse",__name__, url_prefix="/lesse")
@@ -32,6 +32,8 @@ def post_user_lesse_login():
 
 @bp.patch("/update/<int:user_id>")
 def patch_user_lesse_update(user_id: int):
+    data = request.get_json()
+    return update_user_less_by_id(user_id, data)
     ...
 
 @bp.delete("/update/<int:user_id>")
