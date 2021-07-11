@@ -1,3 +1,5 @@
+import ipdb
+from app.exc.missing_keys_error import MissingKeys
 from flask import current_app
 from app.exc.incorrect_keys_error import IncorrectKeysError
 from werkzeug.security import generate_password_hash
@@ -8,6 +10,7 @@ def add_in_db(data) -> None:
     session = get_current_session()
     session.add(data)
     session.commit()
+
 
 
 def add_all_in_db(data) -> None:
@@ -52,3 +55,8 @@ def decriptography_string(data):
     k = pyDes.des("DESCRYPT", pyDes.CBC, str(key), pad=None, padmode=pyDes.PAD_PKCS5)
     string_criptographed = "a"
     return string_criptographed
+
+def check_missing_keys(data: dict, required_keys: list):
+    missing_keys = [key for key in required_keys if key not in data.keys()]
+    if missing_keys:
+        raise MissingKeys(missing_keys, required_keys)
