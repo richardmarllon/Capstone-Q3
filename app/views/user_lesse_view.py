@@ -33,13 +33,16 @@ def post_user_lesse_login():
 @bp.patch("/update/<int:user_id>")
 def patch_user_lesse_update(user_id: int):
     data = request.get_json()
-    return update_user_less_by_id(user_id, data)
-    ...
+    try:
+        return update_user_less_by_id(user_id, data)
+    except KeyError as err:
+        return {"message": "You can't change the password, yet!"}, HTTPStatus.UNAUTHORIZED
 
 @bp.delete("/update/<int:user_id>")
 def del_user_lesse_delete(user_id: int):
-        return delete_user_lesse_by_id(user_id)
-   
+    return delete_user_lesse_by_id(user_id)
+    
+
 
 @bp.get("/user")
 def get_user_lesse():

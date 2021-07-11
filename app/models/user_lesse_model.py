@@ -1,3 +1,4 @@
+from ipdb.__main__ import set_trace
 from app.configs.database import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import Column, Integer, String, Text
@@ -41,7 +42,7 @@ class UserLesseModel(db.Model):
         return check_password_hash(self.password_hash, password_to_check)
     
     def serialized(self) -> dict:
-        return {"name": self.name, "email": self.email, "city": self.city, "state": self.state, "cnh": self.cnh}
+        return {"name": self.name, "last_name": self.last_name,"email": self.email, "cnh": self.cnh, "city": self.city, "state": self.state}
         
 
     

@@ -1,7 +1,7 @@
-from re import search
 from app.models.user_lesse_model import UserLesseModel
 from app.services.helpers import add_in_db, check_incorrect_keys, format_cpf, criptography_string, delete_in_db, commit_current_session
 from http import HTTPStatus
+from flask import jsonify
 import ipdb
 
 def post_user_lesse_by_data(data) -> tuple:
@@ -15,11 +15,11 @@ def post_user_lesse_by_data(data) -> tuple:
     data["cpf_encrypt"] = cpf_encrypted
 
     lesse_user = UserLesseModel(**data)
-    # ipdb.set_trace()
     add_in_db(lesse_user)
+    response = lesse_user.serialized()
 
 
-    return lesse_user.serialized(), HTTPStatus.CREATED
+    return response, HTTPStatus.CREATED
 
 def search_user_lesse_by_cpf(data) -> tuple:
     required_keys = ["cpf"]
@@ -52,29 +52,29 @@ def delete_user_lesse_by_id(id: int):
 def update_user_less_by_id(id: int, data: dict):
     user_to_update = UserLesseModel.query.filter_by(id=id).first()
 
-    if data['cpf']:
+    if data.get('password'):
+        raise KeyError
+
+
+    if data.get('cpf'):
         cpf_to_encrypt = format_cpf(data)
         cpf_encrypted = criptography_string(cpf_to_encrypt)
         data.pop("cpf")
         data["cpf_encrypt"] = cpf_encrypted
-        # ipdb.set_trace()
     
-    data.pop('password')
-    
-    keys = [key for key,value in data.items()]
-    # for key in keys:
-    # criar um outro dicionário com a instancia e depois fazer um upgrade pelo o que veio.
-    user_to_update.update(data)
-    ipdb.set_trace()
-    
+
+    user_to_update.name = data.get('name') or user_to_update.name
+    user_to_update.email = data.get('email') or user_to_update.email
+    user_to_update.last_name = data.get('last_name') or user_to_update.last_name
+    user_to_update.city = data.get('city') or user_to_update.city
+    user_to_update.state = data.get('state') or user_to_update.state
+    user_to_update.cnh = data.get('cnh') or user_to_update.cnh
+
   
-    # ipdb.set_trace()
-
-
-
+    commit_current_session()
+    response = user_to_update.serialized()
     
-    return
-    ...
+    return response, HTTPStatus.OK
 
 
 
