@@ -1,7 +1,7 @@
 from app.models.user_lesse_model import UserLesseModel
 from app.services.helpers import add_in_db, check_incorrect_keys, format_cpf, criptography_string, delete_in_db, commit_current_session
 from http import HTTPStatus
-from flask import jsonify
+from flask_jwt_extended import create_access_token
 import ipdb
 
 def post_user_lesse_by_data(data) -> tuple:
@@ -76,10 +76,19 @@ def update_user_less_by_id(id: int, data: dict):
     
     return response, HTTPStatus.OK
 
+def login_user_lesse(data: dict):
 
+    cpf_to_encrypt = format_cpf(data)
+    cpf_encrypted = criptography_string(cpf_to_encrypt)
+    user: UserLesseModel = UserLesseModel.query.filter_by(cpf_encrypt=cpf_encrypted).first()
 
+    if not user:
+        raise KeyError
 
-    
-
-
-
+    if user.check_password(data.get('password')):
+        token = create_access_token(identity=user.name)
+        response = user.serialized()
+        response['access_token'] = token
+        return response, HTTPStatus.OK
+    else:
+        return {'message': "Bad credentials"}, HTTPStatus.UNAUTHORIZED

@@ -1,10 +1,11 @@
+import re
 from sqlalchemy.exc import IntegrityError
 from app.exc.incorrect_keys_error import IncorrectKeysError
 from flask import Blueprint, request, jsonify
 from http import HTTPStatus
 from app.exc.incorrect_keys_error import IncorrectKeysError
 from app.models.user_lesse_model import UserLesseModel
-from app.services.user_lesse_services import post_user_lesse_by_data, search_user_lesse_by_cpf, delete_user_lesse_by_id, update_user_less_by_id
+from app.services.user_lesse_services import post_user_lesse_by_data, search_user_lesse_by_cpf, delete_user_lesse_by_id, update_user_less_by_id, login_user_lesse
 import ipdb
 
 bp = Blueprint("lesse",__name__, url_prefix="/lesse")
@@ -28,6 +29,11 @@ def post_user_lesse_register():
 
 @bp.post("/login")
 def post_user_lesse_login():
+    data = request.get_json()
+    try:
+        return login_user_lesse(data)
+    except KeyError:
+        return {"message": "User not found"}, HTTPStatus.NOT_FOUND
     ...
 
 @bp.patch("/update/<int:user_id>")
@@ -55,6 +61,3 @@ def get_user_lesse():
 
     except KeyError as err:
         return {"message": "User not found"}, HTTPStatus.NOT_FOUND
-
-    
-
