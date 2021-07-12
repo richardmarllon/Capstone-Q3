@@ -1,11 +1,17 @@
 from flask import Flask, Blueprint, request, jsonify
 from http import HTTPStatus
+from app.services.car_services import post_car_by_data
 
 bp = Blueprint("car", __name__, url_prefix="/car")
 
 @bp.post("/register")
 def post_car_register():
-    return "registrado", HTTPStatus.CREATED
+    # try:
+        data = request.get_json()
+        response = post_car_by_data(data)
+        return response, HTTPStatus.CREATED
+    # except:
+    #     pass
 
 @bp.patch("/update/<int:car_id>")
 def patch_car_update():
