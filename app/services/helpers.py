@@ -60,3 +60,6 @@ def check_missing_keys(data: dict, required_keys: list):
     missing_keys = [key for key in required_keys if key not in data.keys()]
     if missing_keys:
         raise MissingKeys(missing_keys, required_keys)
+
+def format_car_plate(data) -> str:
+    return "".join(re.findall('[0-9A-Za-z]', data.get("car_plate")))
