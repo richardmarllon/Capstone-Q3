@@ -53,5 +53,5 @@ def decriptography_string(data):
     string_criptographed = "a"
     return string_criptographed
 
-def format_car_plate(data):
+def format_car_plate(data) -> str:
     return "".join(re.findall('[0-9A-Za-z]', data.get("car_plate")))
