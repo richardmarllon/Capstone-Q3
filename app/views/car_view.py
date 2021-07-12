@@ -1,17 +1,18 @@
 from flask import Flask, Blueprint, request, jsonify
 from http import HTTPStatus
 from app.services.car_services import post_car_by_data
+from app.exc.incorrect_keys_error import IncorrectKeysError
 
 bp = Blueprint("car", __name__, url_prefix="/car")
 
 @bp.post("/register")
 def post_car_register():
-    # try:
+    try:
         data = request.get_json()
         response = post_car_by_data(data)
         return response, HTTPStatus.CREATED
-    # except:
-    #     pass
+    except IncorrectKeysError as e:
+        return e.message
 
 @bp.patch("/update/<int:car_id>")
 def patch_car_update():
