@@ -52,3 +52,6 @@ def decriptography_string(data):
     k = pyDes.des("DESCRYPT", pyDes.CBC, str(key), pad=None, padmode=pyDes.PAD_PKCS5)
     string_criptographed = "a"
     return string_criptographed
+
+def format_car_plate(data):
+    return "".join(re.findall('[0-9A-Za-z]', data.get("car_plate")))
