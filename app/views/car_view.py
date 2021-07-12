@@ -2,10 +2,14 @@ from flask import Flask, Blueprint, request, jsonify
 from http import HTTPStatus
 from app.services.car_services import post_car_by_data
 from app.exc.incorrect_keys_error import IncorrectKeysError
+from flask_jwt_extended import jwt_required, get_jwt_identity
+
+ 
 
 bp = Blueprint("car", __name__, url_prefix="/car")
 
 @bp.post("/register")
+# @jwt_required()
 def post_car_register():
     try:
         data = request.get_json()
