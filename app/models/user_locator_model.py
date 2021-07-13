@@ -1,9 +1,20 @@
 from app.configs.database import db
 from sqlalchemy import Column, Integer, String, Text, Unicode
 from werkzeug.security import check_password_hash, generate_password_hash
+from dataclasses import dataclass
 
-
+@dataclass
 class UserLocatorModel(db.Model):
+    
+    id: int
+    name: str
+    last_name: str
+    email: str
+    password_hash: str
+    cpf_encrypt: str
+    address: str
+    cep: str
+    
     __tablename__ = "user_locator"
 
     id = Column(Integer, primary_key=True)
