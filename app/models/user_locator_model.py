@@ -39,10 +39,10 @@ class UserLocatorModel(db.Model):
         return check_password_hash(self.password_hash, password_to_compare)
 
     def serialized(self):
-        return {"name": self.name, "email": self.email, "cep": self.cep, "address": self.address}
+        return {"id": self.id, "name": self.name, "email": self.email, "cep": self.cep, "address": self.address}
 
     def __repr__(self):
-        return {"name": self.name, "id": self.id}
+        return f"id: {self.id}, name: {self.name}, last_name: {self.last_name}, address: {self.address}, email: {self.email} cep: {self.cep}"
 
     def __str__(self):
         return f"id: {self.id}, name:{self.name}"
