@@ -22,7 +22,7 @@ class CarModel(db.Model):
 
     user = relationship("UserLocatorModel", backref=backref("car"))
     def serialized(self):
-        return {"model": self.model, "year": self.year, "car_plate": self.car_plate, "trunk_volume": self.trunk_volume,
+        return {"model": self.model, "year": self.year, "car_plate": self.car_plate, "thunk_volume": self.thunk_volume,
                 "insurer": self.insurer, "insurer_number": self.insurer_number, "review_date": self.review_date,
                 "withdrawal_place": self.withdrawal_place, "city": self.city, "state": self.state, "user_id": self.user_id}
 
