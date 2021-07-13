@@ -16,7 +16,7 @@ class RecordLocatorModel:
     __tablename__ = "record_locator"
 
     id=Column(Integer, primary_key=True)
-    date=Column(date)
+    date=Column(Date)
     comment=Column(String(150), nullable=False)
     avaliation=Column(Integer)
 
