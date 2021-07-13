@@ -1,5 +1,6 @@
 from app.models.car_model import CarModel
-from app.services.helpers import check_incorrect_keys, add_in_db, format_car_plate
+from app.services.helpers import check_incorrect_keys, add_in_db, format_car_plate, commit_current_session
+from http import HTTPStatus
 
 def post_car_by_data(data: dict) -> tuple:
     required_keys = ["year", "car_plate", "model", "thunk_volume", "insurer", "insurer_number", "review_date", "withdrawal_place", "city", "state", "user_id"]
@@ -15,11 +16,14 @@ def post_car_by_data(data: dict) -> tuple:
     return response
 
 def update_car_by_id(car_id: int, data: dict):
+    
     car_to_update = CarModel.query.get(car_id)
-
+    
     for key, value in data.items():
         setattr(car_to_update, key, value)
 
-    add_in_db(car_to_update)    
+    commit_current_session()
     
-    return car_to_update
+    response = car_to_update.serialized()
+
+    return response
