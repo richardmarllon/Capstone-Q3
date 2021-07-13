@@ -1,6 +1,6 @@
 from flask import Flask, Blueprint, request, jsonify
 from http import HTTPStatus
-from app.services.car_services import post_car_by_data
+from app.services.car_services import post_car_by_data, update_car_by_id
 from app.exc.incorrect_keys_error import IncorrectKeysError
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
@@ -19,8 +19,15 @@ def post_car_register():
         return e.message
 
 @bp.patch("/update/<int:car_id>")
-def patch_car_update():
-    return "atalizado", HTTPStatus.OK
+@jwt_required()
+def patch_car_update(car_id: int):
+    current_user = get_jwt_identity()
+    data = request.get_json()
+    if data["user_id"] == current_user["user_id"]:
+        response = update_car_by_id(car_id, data) 
+        return jsonify(response, HTTPStatus.OK)
+
+    return {"message": "You need to own the source to modify."}, HTTPStatus.FORBIDDEN
 
 @bp.delete("/delete/<int:car_id>")
 def del_car_delete():
