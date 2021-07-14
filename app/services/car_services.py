@@ -7,6 +7,8 @@ def post_car_by_data(data: dict) -> tuple:
     check_incorrect_keys(data, required_keys)
 
     car_plate_to_format = format_car_plate(data)
+    # print("teste")
+    # print(car_plate_to_format)
     data["car_plate"] = car_plate_to_format
 
     car = CarModel(**data)
@@ -16,6 +18,9 @@ def post_car_by_data(data: dict) -> tuple:
     return response
 
 def update_car_by_id(car_id: int, data: dict):
+
+    car_plate_to_format = format_car_plate(data)
+    data["car_plate"] = car_plate_to_format
     
     car_to_update = CarModel.query.get(car_id)
     

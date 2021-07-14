@@ -3,6 +3,7 @@ from http import HTTPStatus
 from app.services.car_services import post_car_by_data, update_car_by_id
 from app.exc.incorrect_keys_error import IncorrectKeysError
 from app.exc.missing_keys_error import MissingKeys
+from app.exc.not_permission import Not_Permission 
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
  
@@ -28,11 +29,16 @@ def post_car_register():
 def patch_car_update(car_id: int):
     current_user = get_jwt_identity()
     data = request.get_json()
-    if data["user_id"] == current_user["user_id"]:
-        response = update_car_by_id(car_id, data) 
+    try:
+        if data["user_id"] == current_user["user_id"]:
+                
+            response = update_car_by_id(car_id, data) 
+            return response, HTTPStatus.OK
+        raise Not_Permission 
        
-        return response, HTTPStatus.OK
-        # return {"message": "You need to own the source to modify."}, HTTPStatus.FORBIDDEN
+    except Not_Permission as e:
+            return e.message
+  
 
 @bp.delete("/delete/<int:car_id>")
 def del_car_delete():
