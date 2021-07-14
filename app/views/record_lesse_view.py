@@ -5,10 +5,9 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from http import HTTPStatus
 from app.exc.incorrect_keys_error import IncorrectKeysError
-from app.services.record_lesse_services import post_record_lesse_by_data, search_record_lesse_by_id, delete_record_lesse_by_id
-# update_record_less_by_id
+from app.services.record_lesse_services import post_record_lesse_by_data, search_record_lesse_by_id, delete_record_lesse_by_id, update_record_lesse_by_id
 
-bp = Blueprint("rlesse",__name__, url_prefix="/rlesse")
+bp = Blueprint("rec-lesse",__name__, url_prefix="/rlesse")
 
 @bp.post("/register_lesse")
 def post_record_lesse_register():
@@ -34,7 +33,7 @@ def patch_record_lesse_update(user_id: int):
     data = request.get_json()
 
     if user_id == current_user['user_id']:
-            return jsonify(update_record_less_by_id(user_id, data))
+            return jsonify(update_record_lesse_by_id(user_id, data))
     return {"message": "You need to own the source to modify."}, HTTPStatus.FORBIDDEN
 
 

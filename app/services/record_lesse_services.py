@@ -29,7 +29,7 @@ def delete_record_lesse_by_id(id: int):
     
     return "", HTTPStatus.NO_CONTENT
 
-def update_user_less_by_id(id: int, data: dict):
+def update_record_lesse_by_id(id: int, data: dict):
     user_to_update = RecordLesseModel.query.get(id)
 
     for key, value in data.items():
