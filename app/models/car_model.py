@@ -8,7 +8,7 @@ class CarModel(db.Model):
     id = Column(Integer, primary_key=True)
 
     year = Column(Integer, nullable=False)
-    car_plate = Column(String(7), nullable=False)
+    car_plate = Column(String(7), nullable=False,)
     model = Column(String(20), nullable=False)
     thunk_volume = Column(Integer, default=None)
     insurer = Column(String(55), nullable=False)
@@ -27,7 +27,7 @@ class CarModel(db.Model):
                 "withdrawal_place": self.withdrawal_place, "city": self.city, "state": self.state, "user_id": self.user_id}
 
     def __repr__(self):
-        return {"model": self.model, "user_id": self.user_id, "id": self.id}
+        return f'model: self.model, user_id: self.user_id, "id": self.id'
 
     def __str__(self):
-        return f"id: {self.id}, model:{self.model}"
+        return f"id: {self.id}, model:{self.model}, user_id:{self.user_id}"
