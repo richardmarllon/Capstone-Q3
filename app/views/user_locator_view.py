@@ -57,7 +57,7 @@ def get_users_locators():
     data = request.args
     users, next_url, prev_url, total, pages = get_users_locators_by_filters(**data)
 
-    return {"info": {"count": total, "pages": pages, "next_page": next_url, "prev_page": prev_url, }, "result": users}, HTTPStatus.OK
+    return {"info": {"count": total, "pages": pages, "next_page": next_url, "prev_page": prev_url, }, "result": users.items}, HTTPStatus.OK
 
 @bp.patch("/update/<int:user_id>")
 @jwt_required()
