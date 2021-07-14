@@ -54,11 +54,9 @@ def get_users_locators_by_filters(**data):
     print(users.has_prev)
     next_url, prev_url = format_url_user_locator(users.has_next, users.has_prev, users.next_num, users.prev_num, per_page, data)
     
-    for user in users.items:
-        return_users.append(user.serialized())
 
 
-    return (return_users, next_url, prev_url, users.total, users.pages)
+    return (users, next_url, prev_url, users.total, users.pages)
 
 def update_user_locator_by_id(id: int, data: dict):
     user_to_update = UserLocatorModel.query.get(id)

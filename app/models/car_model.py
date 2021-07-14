@@ -1,10 +1,26 @@
+from dataclasses import dataclass
+from datetime import date
 from app.configs.database import db
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy import Column, Integer, Date, String, ForeignKey
+from dataclasses import dataclass
 
+
+@dataclass
 class CarModel(db.Model):
     __tablename__ = "car"
 
+    id: int
+    year: str
+    model: str
+    thunk_volume: int
+    insurer: str
+    insurer_number: str
+    review_date: date
+    withdrawal_place: str 
+    city: str
+    state: str    
+        
     id = Column(Integer, primary_key=True)
 
     year = Column(Integer, nullable=False)

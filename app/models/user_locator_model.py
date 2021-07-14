@@ -10,8 +10,6 @@ class UserLocatorModel(db.Model):
     name: str
     last_name: str
     email: str
-    password_hash: str
-    cpf_encrypt: str
     address: str
     cep: str
     
