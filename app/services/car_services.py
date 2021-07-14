@@ -1,5 +1,5 @@
 from app.models.car_model import CarModel
-from app.services.helpers import check_incorrect_keys, add_in_db, format_car_plate, commit_current_session
+from app.services.helpers import check_incorrect_keys, add_in_db, format_car_plate, commit_current_session, delete_in_db
 from http import HTTPStatus
 
 def post_car_by_data(data: dict) -> tuple:
@@ -7,8 +7,6 @@ def post_car_by_data(data: dict) -> tuple:
     check_incorrect_keys(data, required_keys)
 
     car_plate_to_format = format_car_plate(data)
-    # print("teste")
-    # print(car_plate_to_format)
     data["car_plate"] = car_plate_to_format
 
     car = CarModel(**data)
@@ -31,4 +29,17 @@ def update_car_by_id(car_id: int, data: dict):
     
     response = car_to_update.serialized()
 
+    return response
+
+def delete_car_by_id(id, current_user): 
+    car_to_delete = CarModel.query.get(id)
+    print(car_to_delete.id)
+    print("teeeeeeeeeeeste")
+    print(current_user)
+   
+    if car_to_delete.id == current_user['user_id']:
+        delete_in_db(car_to_delete)
+    # pass
+        return ""
+    response = {"message": f'ID_car number {id} does not exists.'}
     return response
