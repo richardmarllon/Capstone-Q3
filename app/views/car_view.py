@@ -2,6 +2,7 @@ from flask import Flask, Blueprint, request, jsonify
 from http import HTTPStatus
 from app.services.car_services import post_car_by_data, update_car_by_id
 from app.exc.incorrect_keys_error import IncorrectKeysError
+from app.exc.missing_keys_error import MissingKeys
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
  
@@ -15,15 +16,19 @@ def post_car_register():
         data = request.get_json()
         response = post_car_by_data(data)
         return response, HTTPStatus.CREATED
+
     except IncorrectKeysError as e:
-        return e.message
+        return e.message, HTTPStatus.BAD_REQUEST
+        
+    except MissingKeys as e:
+        return e.message, HTTPStatus.BAD_REQUEST
 
 @bp.patch("/update/<int:car_id>")
-# @jwt_required()
+@jwt_required()
 def patch_car_update(car_id: int):
-    # current_user = get_jwt_identity()
-        data = request.get_json()
-    # if data["user_id"] == current_user["user_id"]:
+    current_user = get_jwt_identity()
+    data = request.get_json()
+    if data["user_id"] == current_user["user_id"]:
         response = update_car_by_id(car_id, data) 
        
         return response, HTTPStatus.OK
