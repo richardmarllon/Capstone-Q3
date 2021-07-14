@@ -30,4 +30,4 @@ class CarModel(db.Model):
         return f'model: self.model, user_id: self.user_id, "id": self.id'
 
     def __str__(self):
-        return f"id: {self.id}, model:{self.model}"
+        return f"id: {self.id}, model:{self.model}, user_id:{self.user_id}"

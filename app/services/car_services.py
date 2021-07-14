@@ -33,13 +33,10 @@ def update_car_by_id(car_id: int, data: dict):
 
 def delete_car_by_id(id, current_user): 
     car_to_delete = CarModel.query.get(id)
-    print(car_to_delete.id)
-    print("teeeeeeeeeeeste")
-    print(current_user)
-   
-    if car_to_delete.id == current_user['user_id']:
+    teste = False
+    if car_to_delete.user_id == current_user['user_id']:
         delete_in_db(car_to_delete)
-    # pass
+        
         return ""
-    response = {"message": f'ID_car number {id} does not exists.'}
-    return response
+    
+    

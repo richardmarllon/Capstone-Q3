@@ -1,5 +1,7 @@
 from flask import Flask, Blueprint, request, jsonify
 from http import HTTPStatus
+
+from sqlalchemy.sql.coercions import expect
 from app.services.car_services import post_car_by_data, update_car_by_id, delete_car_by_id
 from app.exc.incorrect_keys_error import IncorrectKeysError
 from app.exc.missing_keys_error import MissingKeys
@@ -44,16 +46,19 @@ def patch_car_update(car_id: int):
 @jwt_required()
 def del_car_delete(car_id: int):
     current_user = get_jwt_identity()
-    # user_id = current_user["id"]
-    # try:
-        # if car_id == current_user["id"]:
-                
-    response = delete_car_by_id(car_id, current_user) 
-    return response, HTTPStatus.NO_CONTENT
-            # raise "erro"
-    # except:
-    #     return response, HTTPStatus.NOT_FOUND
-   
+        
+    try:
+        response = delete_car_by_id(car_id, current_user)        
+        return response, HTTPStatus.NO_CONTENT
+            
+    except AttributeError as _:
+        return {"message": f'ID_car number {car_id} does not exists.'}, HTTPStatus.BAD_REQUEST
+    
+    except TypeError as _:
+        return "teste"
+    
+    except Not_Permission as e:
+            return e.message
 
 @bp.get("/cars")
 def get_cars(): 
