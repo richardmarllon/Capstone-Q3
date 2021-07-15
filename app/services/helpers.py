@@ -128,3 +128,56 @@ def format_query_user_locator(data):
     per_page = data.get("per_page") or default_per_page
     
     return (name, last_name, cep, email, page, per_page)
+
+def format_query_car(data: dict):
+    default_page = 1
+    default_per_page = 15
+    default_value=""
+
+    # year = "%{}%".format(data.get("year") or default_value)
+    model ="%{}%".format(data.get("model") or default_value)
+    thunk_volume ="%{}%".format(data.get("thunk_volume") or default_value)
+    withdrawal_place ="%{}%".format(data.get("withdrawal_place") or default_value)
+    city ="%{}%".format(data.get("city") or default_value)
+    state ="%{}%".format(data.get("state") or default_value)
+    page = data.get("page") or default_page
+    per_page = data.get("per_page") or default_per_page
+
+    return ( model, withdrawal_place, city, state, page, per_page)
+
+
+def format_url_car(has_next, has_prev, next_page_number, prev_page_number, per_page, data):
+    
+    model, withdrawal_place, city, state = ("","","","")
+
+    next_url = None
+    prev_url = None
+
+    # if data.get("year"):
+    #     year = "&year={}".format(data.get("year"))
+
+    if data.get("model"):
+        model = "&model={}".format(data.get("model"))
+
+    # if data.get("thunk_volume"):
+    #     thunk_volume = "&thunk_volume={}".format(data.get("thunk_volume"))
+
+    if data.get("withdrawal_place"):
+        withdrawal_place = "&withdrawal_place={}".format(data.get("withdrawal_place"))
+
+    if data.get("city"):
+        city = "&city={}".format(data.get("city"))
+
+    if data.get("state"):
+        state = "&state={}".format(data.get("state"))
+
+    if has_next and next_page_number:
+        next_url = f"http://127.0.0.1:5000/car/cars/?per_page={per_page}&page={next_page_number}" + year + model + thunk_volume + withdrawal_place + city + state
+    
+    if has_prev and prev_page_number:
+        prev_url = f"http://127.0.0.1:5000/car/cars/?per_page={per_page}&page={prev_page_number}" + year + model + thunk_volume + withdrawal_place + city + state
+    
+    return (next_url, prev_url)
+
+    
+    

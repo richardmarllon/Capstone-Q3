@@ -2,7 +2,7 @@ from flask import Flask, Blueprint, request, jsonify
 from http import HTTPStatus
 
 # from sqlalchemy.sql.coercions import expect
-from app.services.car_services import post_car_by_data, update_car_by_id, delete_car_by_id
+from app.services.car_services import post_car_by_data, update_car_by_id, delete_car_by_id, get_car_by_filters
 from app.exc.incorrect_keys_error import IncorrectKeysError
 from app.exc.missing_keys_error import MissingKeys
 from app.exc.not_permission import NotPermission 
@@ -79,8 +79,7 @@ def get_cars():
 
         return {"info": {"count": total, "pages": pages, "next_page": next_url, "prev_page": prev_url}, "result": cars.items }, HTTPStatus.OK
 
-    except:
-        pass
-
+    except NotPermission as e:
+        e.message, HTTPStatus.UNAUTHORIZED
 
 

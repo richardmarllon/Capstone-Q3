@@ -1,5 +1,5 @@
 from app.models.car_model import CarModel
-from app.services.helpers import check_incorrect_keys, add_in_db, format_car_plate, commit_current_session, delete_in_db
+from app.services.helpers import check_incorrect_keys, add_in_db, format_car_plate, commit_current_session, delete_in_db, format_query_car, format_url_car
 
 def post_car_by_data(data: dict) -> tuple:
     required_keys = ["year", "car_plate", "model", "thunk_volume", "insurer", "insurer_number", "review_date", "withdrawal_place", "city", "state", "user_id"]
@@ -40,17 +40,17 @@ def delete_car_by_id(id, current_user):
     
 def get_car_by_filters(**data):
 
-    year, model, thunk_volume, withdrawal_place, city, state, page, per_page = format_query_car(data)
-    return_cars = []
+    model, withdrawal_place, city, state, page, per_page = format_query_car(data)
+   
 
     cars = CarModel.query.filter(
-        CarModel.year.like(year),
+        # CarModel.year.like(year),
         CarModel.model.like(model),
-        CarModel.thunk_volume.like(thunk_volume),
+        # CarModel.thunk_volume.like(thunk_volume),
         CarModel.withdrawal_place.like(withdrawal_place),
         CarModel.city.like(city),
         CarModel.state.like(state)).paginate(int(page), int(per_page),error_out=False)
 
-    next_url, prev_url = format_url_car(cars.has_next, car,has_prev, cars.next_num, cars.prev_num, per_page, data)
+    next_url, prev_url = format_url_car(cars.has_next, cars.has_prev, cars.next_num, cars.prev_num, per_page, data)
 
     return (cars, next_url, prev_url, cars.total, cars.pages)
