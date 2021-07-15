@@ -1,3 +1,4 @@
+from ipdb.__main__ import set_trace
 from app.exc.missing_keys_error import MissingKeys
 from sqlalchemy.exc import IntegrityError
 from app.exc.incorrect_keys_error import IncorrectKeysError
@@ -68,7 +69,8 @@ def del_user_lesse_delete(user_id: int):
 @bp.get("/user/<int:user_id>")
 def get_user_lesse(user_id):
     try:
-        return search_user_lesse_by_id(user_id), HTTPStatus.OK
+        user = search_user_lesse_by_id(user_id)
+        return {"user": user, "avaliations_received": user.record_locator, "avaliations_give": user.record_lesse}, HTTPStatus.OK
         
     except IncorrectKeysError as err:
         return err.message, HTTPStatus.BAD_REQUEST

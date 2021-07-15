@@ -28,11 +28,7 @@ def search_user_lesse_by_id(id: int):
     if not search_result:
         raise KeyError
 
-    search_result = search_result.__dict__
-    response = {k:v for k,v in search_result.items() if k in {'name', 'id', 'email', 'city', 'state', 'cnh'}}
-    
-
-    return response
+    return search_result
 
 
 def delete_user_lesse_by_id(id: int):

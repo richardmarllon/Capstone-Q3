@@ -14,5 +14,6 @@ def init_app(app: Flask) -> None:
 
     from app.models.unavaliable_date_model import UnavaliableDateModel
     from app.models.date_ocupied_model import DateOcupiedModel
+    from app.models.record_locator_model import RecordLocatorModel
 
 
