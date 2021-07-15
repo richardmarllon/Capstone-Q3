@@ -33,10 +33,9 @@ def update_car_by_id(car_id: int, data: dict):
 
 def delete_car_by_id(id, current_user): 
     car_to_delete = CarModel.query.get(id)
-    # teste = False
     if car_to_delete.user_id == current_user['user_id']:
         delete_in_db(car_to_delete)
-        
-        return ""
-    
+                
+        return False
+    return True
     

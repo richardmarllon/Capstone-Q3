@@ -50,18 +50,16 @@ def del_car_delete(car_id: int):
     try:
         response = delete_car_by_id(car_id, current_user)        
         if not response:
-            return response, HTTPStatus.NO_CONTENT
+            return "", HTTPStatus.NO_CONTENT
+
         raise Not_Permission
 
-    except AttributeError as _:
-        return {"message": f'ID_car number {car_id} does not exists.'}, HTTPStatus.BAD_REQUEST
-    
-    except TypeError as _:
-        return "teste"
     
     except Not_Permission as e:
             return e.message, HTTPStatus.UNAUTHORIZED
 
+    except:
+        return {"message": f'ID_car number {car_id} does not exists.'}, HTTPStatus.BAD_REQUEST
 @bp.get("/cars")
 def get_cars(): 
     return "carro", HTTPStatus.OK
