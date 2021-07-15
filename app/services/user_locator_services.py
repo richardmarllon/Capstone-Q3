@@ -35,9 +35,9 @@ def get_user_locator_by_cpf(data):
 
     return user
 
-def get_user_locator_by_id(data):
+def get_user_locator_by_id(id):
     
-    user = UserLocatorModel.query.get(data)
+    user = UserLocatorModel.query.get(id)
     
     return user
 

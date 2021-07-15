@@ -47,7 +47,8 @@ def get_user_locator(user_id: int):
     
     if token.get("user_id") != user.id:
         return {"msg": "unauthorized"}, HTTPStatus.UNAUTHORIZED
-    return user.serialized(), HTTPStatus.OK
+    print(user.car)
+    return jsonify({"user": user,"user_cars": user.car}), HTTPStatus.OK
     
     
 @bp.get("/users/")

@@ -12,9 +12,6 @@ class UserLesseModel(db.Model):
     city: str
     state: str
     cnh: str
-    cpf_encrypt: str
-    password_hash: str
-
 
     __tablename__ = "user_lesse"
 
@@ -40,9 +37,3 @@ class UserLesseModel(db.Model):
     
     def check_password(self, password_to_check:str) -> bool:
         return check_password_hash(self.password_hash, password_to_check)
-    
-    def serialized(self) -> dict:
-        return {"name": self.name, "last_name": self.last_name,"email": self.email, "cnh": self.cnh, "city": self.city, "state": self.state}
-        
-
-    
