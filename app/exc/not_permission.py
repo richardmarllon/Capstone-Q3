@@ -1,4 +1,4 @@
-class Not_Permission(Exception):
+class NotPermission(Exception):
 
     def __init__(self):
         self.message = {"message": "You do not have permission to use that command!"}
