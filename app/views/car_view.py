@@ -39,7 +39,7 @@ def patch_car_update(car_id: int):
         raise Not_Permission 
        
     except Not_Permission as e:
-            return e.message
+            return e.message, HTTPStatus.UNAUTHORIZED
   
 
 @bp.delete("/delete/<int:car_id>")
@@ -49,8 +49,10 @@ def del_car_delete(car_id: int):
         
     try:
         response = delete_car_by_id(car_id, current_user)        
-        return response, HTTPStatus.NO_CONTENT
-            
+        if not response:
+            return response, HTTPStatus.NO_CONTENT
+        raise Not_Permission
+
     except AttributeError as _:
         return {"message": f'ID_car number {car_id} does not exists.'}, HTTPStatus.BAD_REQUEST
     
@@ -58,7 +60,7 @@ def del_car_delete(car_id: int):
         return "teste"
     
     except Not_Permission as e:
-            return e.message
+            return e.message, HTTPStatus.UNAUTHORIZED
 
 @bp.get("/cars")
 def get_cars(): 
