@@ -4,11 +4,11 @@ from http import HTTPStatus
 class MissingKeys(Exception):
 
     def __init__(self, missing_keys: dict, required_keys: list):
-        self.message = ({"error":
+        self.message = (
+                        {"error":
                              {"required keys": required_keys,
                               "missing keys": missing_keys}
-                         },
-                        HTTPStatus.BAD_REQUEST
+                        }
                         )
 
         super().__init__(self.message)

@@ -12,5 +12,7 @@ def init_app(app: Flask) -> None:
     from app.models.record_lesse_model import RecordLesseModel
     from app.models.user_lesse_model import UserLesseModel
 
+    from app.models.unavaliable_date_model import UnavaliableDateModel
+    from app.models.date_ocupied_model import DateOcupiedModel
 
 

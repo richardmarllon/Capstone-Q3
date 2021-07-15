@@ -1,9 +1,7 @@
 from dataclasses import dataclass
-from datetime import date
 from app.configs.database import db
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy import Column, Integer, Date, String, ForeignKey
-from dataclasses import dataclass
 
 
 @dataclass
@@ -16,7 +14,7 @@ class CarModel(db.Model):
     thunk_volume: int
     insurer: str
     insurer_number: str
-    review_date: date
+    review_date: str
     withdrawal_place: str 
     city: str
     state: str    

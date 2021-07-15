@@ -51,7 +51,7 @@ def get_users_locators_by_filters(**data):
         UserLocatorModel.last_name.like(last_name),
         UserLocatorModel.cep.like(cep),
         UserLocatorModel.email.like(email)).paginate(int(page), int(per_page),error_out=False)
-    print(users.has_prev)
+
     next_url, prev_url = format_url_user_locator(users.has_next, users.has_prev, users.next_num, users.prev_num, per_page, data)
     
 
