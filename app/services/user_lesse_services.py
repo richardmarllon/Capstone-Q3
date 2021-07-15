@@ -3,7 +3,7 @@ from app.services.helpers import add_in_db, check_incorrect_keys, check_missing_
 from werkzeug.security import generate_password_hash
 from flask_jwt_extended import create_access_token
 
-def post_user_lesse_by_data(data) -> tuple:
+def post_user_lesse_by_data(data: dict):
     required_keys = ["name", "last_name", "email", "city", "state", "cnh", "cpf", "password"]
     check_incorrect_keys(data, required_keys)
     check_missing_keys(data, required_keys)
@@ -21,20 +21,16 @@ def post_user_lesse_by_data(data) -> tuple:
 
     return response
 
-def search_user_lesse_by_cpf(data) -> tuple:
-    required_keys = ["cpf"]
-    check_incorrect_keys(data, required_keys)
+def search_user_lesse_by_id(id: int):
 
-    cpf_to_encrypt = format_cpf(data)
-    cpf_encrypted = criptography_string(cpf_to_encrypt)
-
-    search_result = UserLesseModel.query.filter_by(cpf_encrypt=cpf_encrypted).first()
+    search_result = UserLesseModel.query.filter_by(id=id).first()
 
     if not search_result:
         raise KeyError
 
     search_result = search_result.__dict__
     response = {k:v for k,v in search_result.items() if k in {'name', 'id', 'email', 'city', 'state', 'cnh'}}
+    
 
     return response
 
