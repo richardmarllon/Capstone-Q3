@@ -1,6 +1,5 @@
 from app.models.car_model import CarModel
 from app.services.helpers import check_incorrect_keys, add_in_db, format_car_plate, commit_current_session, delete_in_db
-from http import HTTPStatus
 
 def post_car_by_data(data: dict) -> tuple:
     required_keys = ["year", "car_plate", "model", "thunk_volume", "insurer", "insurer_number", "review_date", "withdrawal_place", "city", "state", "user_id"]
@@ -35,7 +34,7 @@ def delete_car_by_id(id, current_user):
     car_to_delete = CarModel.query.get(id)
     if car_to_delete.user_id == current_user['user_id']:
         delete_in_db(car_to_delete)
-                
+
         return False
     return True
     
