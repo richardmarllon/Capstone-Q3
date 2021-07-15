@@ -94,6 +94,27 @@ def format_url_user_locator(has_next, has_prev, next_page_number, prev_page_numb
     
     return (next_url, prev_url)
     
+def format_url_date_ocupied(date_ocupied, page, per_page):
+    next_url = None
+    prev_url = None
+    
+    if date_ocupied.has_next and date_ocupied.next_num:
+        next_url = f"https://capstone-q3.herokuapp.com/date-ocupied/?per_page={per_page}&page={page}"
+    if date_ocupied.has_prev and date_ocupied.prev_num:    
+        prev_url = f"https://capstone-q3.herokuapp.com/date-ocupied/?per_page={per_page}&page={page}"
+    
+    return next_url, prev_url
+def format_url_unavaliable_date(date_ocupied, page, per_page):
+    next_url = None
+    prev_url = None
+    
+    if date_ocupied.has_next and date_ocupied.next_num:
+        next_url = f"https://capstone-q3.herokuapp.com/date-ocupied/?per_page={per_page}&page={page}"
+    if date_ocupied.has_prev and date_ocupied.prev_num:    
+        prev_url = f"https://capstone-q3.herokuapp.com/date-ocupied/?per_page={per_page}&page={page}"
+    
+    return next_url, prev_url
+        
 def format_query_user_locator(data):
     default_page = 1
     default_per_page = 15

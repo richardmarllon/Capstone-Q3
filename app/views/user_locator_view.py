@@ -20,7 +20,7 @@ def post_user_locator_register():
     except IncorrectKeysError as e:
         return e.message, HTTPStatus.BAD_REQUEST
     except IntegrityError as e:
-        error = str(e.__dict__['orig'])
+        error = {"message": str(e.__dict__['orig']) }
         return error, HTTPStatus.BAD_REQUEST
 
 @bp.post("/login")
