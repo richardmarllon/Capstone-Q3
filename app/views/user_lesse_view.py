@@ -15,12 +15,12 @@ def post_user_lesse_register():
     try:
         data = request.get_json()
         response = post_user_lesse_by_data(data)
-        return response
+        return response, HTTPStatus.CREATED
 
     except IncorrectKeysError as err:
-        return err.message
+        return err.message, HTTPStatus.BAD_REQUEST
     except MissingKeys as err:
-        return err.message
+        return err.message, HTTPStatus.BAD_REQUEST
 
     except IntegrityError as err:
         response = {"message": str(err.__dict__['orig']) }
@@ -32,11 +32,13 @@ def post_user_lesse_register():
 def post_user_lesse_login():
     data = request.get_json()
     try:
-        return login_user_lesse(data)
+        return login_user_lesse(data), HTTPStatus.OK
     except IncorrectKeysError as err:
-        return err.message
+        return err.message, HTTPStatus.BAD_REQUEST
     except MissingKeys as err:
-        return err.message
+        return err.message, HTTPStatus.BAD_REQUEST
+    except PermissionError:
+        return {'message': "Bad credentials"}, HTTPStatus.UNAUTHORIZED
     except KeyError:
         return {"message": "User not found"}, HTTPStatus.NOT_FOUND
 
@@ -47,7 +49,7 @@ def patch_user_lesse_update(user_id: int):
     current_user = get_jwt_identity()
     data = request.get_json()
     if user_id == current_user['user_id']:
-            return update_user_less_by_id(user_id, data)
+            return update_user_less_by_id(user_id, data), HTTPStatus.OK
     return {"message": "You need to own the source to modify."}, HTTPStatus.FORBIDDEN
 
 
@@ -55,20 +57,21 @@ def patch_user_lesse_update(user_id: int):
 @jwt_required()
 def del_user_lesse_delete(user_id: int):
     current_user = get_jwt_identity()
+
     if user_id == current_user['user_id']:
-        return delete_user_lesse_by_id(user_id)
-    return {"message": "You need to own the source to modify."}, HTTPStatus.FORBIDDEN
+        return delete_user_lesse_by_id(user_id), HTTPStatus.NO_CONTENT
+
+    return {"message": "Sorry, something went wrong."}, HTTPStatus.BAD_REQUEST
     
 
 
 @bp.get("/user")
 def get_user_lesse():
-    cpf_to_search = request.get_json()
     try:
-        return search_user_lesse_by_cpf(cpf_to_search)
+        return search_user_lesse_by_cpf(cpf_to_search), HTTPStatus.OK
         
     except IncorrectKeysError as err:
-        return err.message
+        return err.message, HTTPStatus.BAD_REQUEST
 
     except KeyError as err:
         return {"message": "User not found"}, HTTPStatus.NOT_FOUND
