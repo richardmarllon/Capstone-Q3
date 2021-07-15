@@ -38,3 +38,19 @@ def delete_car_by_id(id, current_user):
         return False
     return True
     
+def get_car_by_filters(**data):
+
+    year, model, thunk_volume, withdrawal_place, city, state, page, per_page = format_query_car(data)
+    return_cars = []
+
+    cars = CarModel.query.filter(
+        CarModel.year.like(year),
+        CarModel.model.like(model),
+        CarModel.thunk_volume.like(thunk_volume),
+        CarModel.withdrawal_place.like(withdrawal_place),
+        CarModel.city.like(city),
+        CarModel.state.like(state)).paginate(int(page), int(per_page),error_out=False)
+
+    next_url, prev_url = format_url_car(cars.has_next, car,has_prev, cars.next_num, cars.prev_num, per_page, data)
+
+    return (cars, next_url, prev_url, cars.total, cars.pages)

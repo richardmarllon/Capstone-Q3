@@ -68,7 +68,19 @@ def del_car_delete(car_id: int):
     except:
         return {"message": f'ID car {car_id} does not exists.'}, HTTPStatus.BAD_REQUEST
         
-@bp.get("/cars")
-def get_cars(): 
-    return "carro", HTTPStatus.OK
+@bp.get("/cars/")
+@jwt_required()
+def get_cars():
+
+    try:
+
+        data = request.args
+        cars, next_url, prev_url, total, pages = get_car_by_filters(**data)
+
+        return {"info": {"count": total, "pages": pages, "next_page": next_url, "prev_page": prev_url}, "result": cars.items }, HTTPStatus.OK
+
+    except:
+        pass
+
+
 
