@@ -105,3 +105,9 @@ Response:
 "comment": "DIRTY CAR",
 "date": "2021/07/15"
 }
+
+# User locator
+
+table to get the data of user locator
+
+## Schemas
