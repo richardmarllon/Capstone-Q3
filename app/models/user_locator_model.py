@@ -1,5 +1,5 @@
 from app.configs.database import db
-from sqlalchemy import Column, Integer, String, Text, Unicode
+from sqlalchemy import Column, Integer, String, Text
 from werkzeug.security import check_password_hash, generate_password_hash
 from dataclasses import dataclass
 
@@ -21,7 +21,7 @@ class UserLocatorModel(db.Model):
     last_name = Column(String(55), nullable=False)
     email = Column(String(255), nullable=False, unique=True)
     password_hash = Column(String(), nullable=False)
-    cpf_encrypt = Column(Unicode(), nullable=False, unique=True)
+    cpf_encrypt = Column(String(), nullable=False, unique=True)
     address = Column(Text, nullable=False)
     cep = Column(String(10), nullable=False)
 
@@ -36,11 +36,3 @@ class UserLocatorModel(db.Model):
     def check_password(self, password_to_compare):
         return check_password_hash(self.password_hash, password_to_compare)
 
-    def serialized(self):
-        return {"id": self.id, "name": self.name, "email": self.email, "cep": self.cep, "address": self.address}
-
-    def __repr__(self):
-        return f"id: {self.id}, name: {self.name}, last_name: {self.last_name}, address: {self.address}, email: {self.email} cep: {self.cep}"
-
-    def __str__(self):
-        return f"id: {self.id}, name:{self.name}"

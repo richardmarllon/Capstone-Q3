@@ -2,7 +2,7 @@ from flask import Flask, Blueprint, request, jsonify
 from http import HTTPStatus
 
 # from sqlalchemy.sql.coercions import expect
-from app.services.car_services import post_car_by_data, update_car_by_id, delete_car_by_id, get_car_by_filters
+from app.services.car_services import get_car_by_id, post_car_by_data, update_car_by_id, delete_car_by_id, get_car_by_filters
 from app.exc.incorrect_keys_error import IncorrectKeysError
 from app.exc.missing_keys_error import MissingKeys
 from app.exc.not_permission import NotPermission 
@@ -21,7 +21,7 @@ def post_car_register():
     try:
         if data["user_id"] == current_user["user_id"]:
             response = post_car_by_data(data)
-            return response, HTTPStatus.CREATED
+            return jsonify(response), HTTPStatus.CREATED
         raise NotPermission 
         
     except NotPermission as e:
@@ -42,7 +42,7 @@ def patch_car_update(car_id: int):
         if data["user_id"] == current_user["user_id"]:
                 
             response = update_car_by_id(car_id, data) 
-            return response, HTTPStatus.OK
+            return jsonify(response), HTTPStatus.OK
         raise NotPermission 
        
     except NotPermission as e:
@@ -83,3 +83,11 @@ def get_cars():
         e.message, HTTPStatus.UNAUTHORIZED
 
 
+@bp.get("/<int:car_id>")
+@jwt_required()
+def get_car(car_id: int):
+    
+    car = get_car_by_id(car_id)
+    if car:
+        return {"car": car, "date_ocupied": car.date_ocupied, "avaliations": car.record_lessee }
+    return {"msg": "not found"}, HTTPStatus.NOT_FOUND

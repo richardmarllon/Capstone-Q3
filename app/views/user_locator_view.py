@@ -16,7 +16,7 @@ def post_user_locator_register():
     try:
         data = request.get_json()
         user = post_user_locator_by_data(data)
-        return user.serialized(), HTTPStatus.CREATED
+        return jsonify(user), HTTPStatus.CREATED
     except IncorrectKeysError as e:
         return e.message, HTTPStatus.BAD_REQUEST
     except IntegrityError as e:
@@ -67,12 +67,12 @@ def patch_user_locator_update(user_id: int):
     data = request.get_json()
     if user_id == current_user['user_id']:
         user_updated = update_user_locator_by_id(user_id, data)
-        return user_updated.serialized(), HTTPStatus.OK
+        return jsonify(user_updated), HTTPStatus.OK
     return {"message": "You need to own the source to modify."}, HTTPStatus.FORBIDDEN
 
 @bp.delete("/delete/<int:user_id>")
 @jwt_required()
-def del_user_lesse_delete(user_id: int):
+def del_user_lessee_delete(user_id: int):
     current_user = get_jwt_identity()
     if user_id == current_user['user_id']:
         deleted = delete_user_locator_by_id(user_id)

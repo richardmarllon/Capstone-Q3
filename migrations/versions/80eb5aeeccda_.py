@@ -24,8 +24,8 @@ def upgrade():
     sa.Column('comment', sa.String(length=150), nullable=False),
     sa.Column('avaliation', sa.Integer(), nullable=True),
     sa.Column('user_locator_id', sa.Integer(), nullable=False),
-    sa.Column('user_lesse_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['user_lesse_id'], ['user_lesse.id'], ),
+    sa.Column('user_lessee_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['user_lessee_id'], ['user_lessee.id'], ),
     sa.ForeignKeyConstraint(['user_locator_id'], ['user_locator.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

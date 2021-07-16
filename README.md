@@ -7,7 +7,7 @@ table to get the record of the lesse
 |    key     | type |       description        |
 | :--------: | :--: | :----------------------: |
 |     id     | int  |     id of the record     |
-|  lesse_id  | int  |     id of the lesse      |
+| lessee_id  | int  |     id of the lesse      |
 |   car_id   | int  |      id of the car       |
 | avaliation | int  | car and lesse avaliation |
 |  comment   | str  | user experience comment  |
@@ -27,7 +27,7 @@ Response:
 
 {
 "id": 1,
-"lesse_id": 1,
+"lessee_id": 1,
 "car_id": 3,
 "avaliation": 5,
 "comment": "clean and comfortable car",
@@ -54,7 +54,7 @@ Response:
 
 {
 "id": 1,
-"lesse_id": 1,
+"lessee_id": 1,
 "car_id": 3,
 "avaliation": 5,
 "comment": "adorable lesse",
@@ -88,7 +88,7 @@ Request: `POST https://capstone-q3.herokuapp.com/rlesse/register_lesse`
 Request Body:
 
 {
-"lesse_id": 5,
+"lessee_id": 5,
 "car_id": 10,
 "avaliation": 3,
 "comment": "DIRTY CAR",
@@ -99,7 +99,7 @@ Response:
 
 {
 "id": 2,
-"lesse_id": 5,
+"lessee_id": 5,
 "car_id": 10,
 "avaliation": 3,
 "comment": "DIRTY CAR",
