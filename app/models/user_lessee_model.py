@@ -1,19 +1,18 @@
-from ipdb.__main__ import set_trace
 from app.configs.database import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import Column, Integer, String, Text
 from dataclasses import dataclass
 
 @dataclass
-class UserLesseModel(db.Model):
+class UserLesseeModel(db.Model):
     id: int
     name:str
     last_name: str
     city: str
     state: str
-    cnh: str
+    email: str
 
-    __tablename__ = "user_lesse"
+    __tablename__ = "user_lessee"
 
     id = Column(Integer, primary_key=True)
 
@@ -22,7 +21,7 @@ class UserLesseModel(db.Model):
     email = Column(String(255), nullable=False, unique=True)
     city = Column(String(55), nullable=False)
     state = Column(String(2), nullable=False)
-    cnh = Column(Text, nullable=False)
+    cnh = Column(Text, nullable=False, unique=True)
 
     cpf_encrypt = Column(String(255), nullable=False, unique=True)
     password_hash = Column(String(), nullable=False)

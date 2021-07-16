@@ -3,8 +3,8 @@ from flask import Flask
 def init_app(app: Flask):
     from app.views.user_locator_view import bp as bp_locator
     from app.views.car_view import bp as bp_car
-    from app.views.user_lesse_view import bp as bp_lesse
-    from app.views.record_lesse_view import bp as bp_rec_lesse
+    from app.views.user_lessee_view import bp as bp_lesse
+    from app.views.record_lessee_view import bp as bp_rec_lesse
     from app.views.date_ocupied_view import bp as bp_date_ocupied
     from app.views.unavaliable_date_view import bp as bp_unavaliable_date
 

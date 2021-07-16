@@ -9,7 +9,7 @@ class CarModel(db.Model):
     __tablename__ = "car"
 
     id: int
-    year: str
+    year: int
     model: str
     thunk_volume: int
     insurer: str
@@ -22,7 +22,7 @@ class CarModel(db.Model):
     id = Column(Integer, primary_key=True)
 
     year = Column(Integer, nullable=False)
-    car_plate = Column(String(7), nullable=False,)
+    car_plate = Column(String(7), nullable=False, unique=True)
     model = Column(String(20), nullable=False)
     thunk_volume = Column(Integer, default=None)
     insurer = Column(String(55), nullable=False)
@@ -35,13 +35,3 @@ class CarModel(db.Model):
     user_id = Column(Integer, ForeignKey("user_locator.id"), nullable=False)
 
     user = relationship("UserLocatorModel", backref=backref("car"))
-    def serialized(self):
-        return {"model": self.model, "year": self.year, "car_plate": self.car_plate, "thunk_volume": self.thunk_volume,
-                "insurer": self.insurer, "insurer_number": self.insurer_number, "review_date": self.review_date,
-                "withdrawal_place": self.withdrawal_place, "city": self.city, "state": self.state, "user_id": self.user_id}
-
-    def __repr__(self):
-        return f'model: self.model, user_id: self.user_id, "id": self.id'
-
-    def __str__(self):
-        return f"id: {self.id}, model:{self.model}, user_id:{self.user_id}"

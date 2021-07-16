@@ -5,15 +5,15 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from http import HTTPStatus
 from app.exc.incorrect_keys_error import IncorrectKeysError
-from app.services.record_lesse_services import post_record_lesse_by_data, search_record_lesse_by_id, delete_record_lesse_by_id, update_record_lesse_by_id
+from app.services.record_lessee_services import post_record_lessee_by_data, search_record_lessee_by_id, delete_record_lessee_by_id, update_record_lessee_by_id
 
-bp = Blueprint("rec-lesse",__name__, url_prefix="/rlesse")
+bp = Blueprint("rec-lessee",__name__, url_prefix="/rlessee")
 
-@bp.post("/register_lesse")
-def post_record_lesse_register():
+@bp.post("/register_lessee")
+def post_record_lessee_register():
     try:
         data = request.get_json()
-        response = post_record_lesse_by_data(data)
+        response = post_record_lessee_by_data(data)
         return jsonify(response)
 
     except IncorrectKeysError as err:
@@ -26,31 +26,31 @@ def post_record_lesse_register():
         return response, HTTPStatus.BAD_REQUEST
 
 
-@bp.patch("/register_lesse/<int:user_id>")
+@bp.patch("/register_lessee/<int:user_id>")
 @jwt_required()
-def patch_record_lesse_update(user_id: int):
+def patch_record_lessee_update(user_id: int):
     current_user = get_jwt_identity()
     data = request.get_json()
 
     if user_id == current_user['user_id']:
-            return jsonify(update_record_lesse_by_id(user_id, data))
+            return jsonify(update_record_lessee_by_id(user_id, data))
     return {"message": "You need to own the source to modify."}, HTTPStatus.FORBIDDEN
 
 
-@bp.delete("/register_lesse/<int:user_id>")
+@bp.delete("/register_lessee/<int:user_id>")
 @jwt_required()
-def del_record_lesse_delete(id: int):
+def del_record_lessee_delete(user_id: int):
     current_user = get_jwt_identity()
     if id == current_user['user_id']:
-        return delete_record_lesse_by_id(id)
+        return delete_record_lessee_by_id(user_id)
     return {"message": "You need to own the source to modify."}, HTTPStatus.FORBIDDEN
     
 
 
-@bp.get("/register_lesse/<int:id>")
-def get_record_lesse(id):
+@bp.get("/register_lessee/<int:id>")
+def get_record_lessee(id):
     try:
-        return jsonify(search_record_lesse_by_id(id))
+        return jsonify(search_record_lessee_by_id(id))
         
     except IncorrectKeysError as err:
         return err.message
