@@ -1,3 +1,4 @@
+from app.exc.not_permission import NotPermission
 import ipdb
 from ipdb.__main__ import set_trace
 from app.exc.missing_keys_error import MissingKeys
@@ -181,4 +182,6 @@ def format_url_car(has_next, has_prev, next_page_number, prev_page_number, per_p
     return (next_url, prev_url)
 
     
-    
+def check_user(user_id, current_user):
+    if not user_id == current_user['user_id']:
+        raise NotPermission
