@@ -113,3 +113,171 @@ table to get the data of user locator
 ## Schemas
 
 
+# User Lesse
+Table to get the user lessee
+
+## Schemas
+
+|    key     | type |       description        |
+| :--------: | :--: | :----------------------: |
+| id | int | id of the user |
+| name | str | user name |
+| last_name | str | user's last name |
+| email | str | user's email |
+| city | str | user's city  |
+| state | str | user's state |
+| cnh | str | user's CNH number |
+| cpf | str | user's CPF number |
+| password | str | user's password |
+
+
+## `Endpoints and methods:`
+## Register 
+-> URL and method:
+
+> POST:` https://capstone-q3.herokuapp.com/lessee/register`
+
+**Body request example:**
+ ```JSON 
+ {
+	"email": "email@email.com",
+	"password": "123aA",
+	"name": "user",
+	"last_name": "test",
+	"cpf": "111.222.333-44",
+	"city": "Rio de Janeiro",
+	"state": "RJ",
+	"cnh": "12345678911"
+}
+```
+Response: `status 201 - CREATED`
+```JSON
+{
+    "id": 1,
+    "name": "user",
+    "last_name": "test",
+    "city": "Rio de Janeiro",
+    "state": "RJ",
+    "email": "email@email.com"
+}
+```
+
+
+## Login 
+-> URL and method:
+
+> POST:` https://capstone-q3.herokuapp.com/lessee/login`
+
+**Body request example:**
+```JSON
+{
+	"cpf": "111.222.333-44",
+	"password": "123aA"
+	
+}
+```
+
+Response: `status 200 - OK`
+```JSON
+{
+    "user": {
+        "id": 1,
+        "name": "user",
+        "last_name": "test",
+        "city": "Rio de Janeiro",
+        "state": "RJ",
+        "email": "email@email.com"
+    },
+    "access_token": "eyJUzI1NiJ9.eyJmcmVzaCI6ZmFsc2Us2VyINnOSwiZXhwIjoxNjI2NTkxMTE5fQ.AOpSzar1EoWt2Uyp0jZM"
+}
+```
+
+## Get user 
+-> URL and method:
+
+> GET:` https://capstone-q3.herokuapp.com/lessee/user/<id>`
+
+**Request example:**
+
+GET without a body: `https://capstone-q3.herokuapp.com/lessee/user/1`
+
+Response: `status 200 - OK`
+```JSON
+{
+    "user": {
+        "id": 6,
+        "name": "user",
+        "last_name": "test",
+        "city": "Rio de Janeiro",
+        "state": "RJ",
+        "email": "email@email.com"
+    },
+    "avaliations_received": [],
+    "avaliations_give": []
+}
+```
+
+## Update user
+
+**You need to own the resource and be logged to update.**
+You can change any key from your own user.
+
+URL and method:
+> PATCH: `https://capstone-q3.herokuapp.com/lessee/update/<id>`
+
+**Request example:**
+
+PATCH: `https://capstone-q3.herokuapp.com/lessee/update/1`
+
+Authorization:
+
+```javascript
+{
+    headers: {Authorization: 'Bearer access_token'}
+}
+```
+
+Body:
+```JSON
+{
+	"email": "new@email.com",
+	"password": "anotherPass"
+}
+``` 
+
+Response: `status 200 - OK`
+```JSON
+{
+    "id": 1,
+    "name": "user",
+    "last_name": "test",
+    "city": "Rio de Janeiro",
+    "state": "RJ",
+    "email": "new@email.com"
+}
+```
+
+## Delete user
+**You need to own the resource and be logged to delete.**
+
+-> URL and method:
+
+> DELETE:` https://capstone-q3.herokuapp.com/lessee/update/<id>`
+
+**Request example:**
+
+DELETE without a body: `https://capstone-q3.herokuapp.com/lessee/update/1`
+
+Authorization:
+
+```javascript
+{
+    headers: {Authorization: 'Bearer access_token'}
+}
+```
+Response: ` status 204 - NO CONTENT`
+
+
+
+
+
