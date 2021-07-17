@@ -85,7 +85,7 @@ def login_user_lessee(data: dict):
 
     if user.check_password(data.get('password')):
         token: str = create_access_token(identity={"user_name": user.name, "user_id": user.id})
-        response = {"user": user,"access token": token}
+        response = {"user": user,"access_token": token}
         return response
     else:
         raise BadCredentials
