@@ -5,7 +5,7 @@ from app.exc.incorrect_keys_error import IncorrectKeysError
 from app.exc.missing_keys_error import MissingKeys
 from app.exc.not_permission import NotPermission 
 from flask_jwt_extended import jwt_required, get_jwt_identity
-
+from sqlalchemy.exc import IntegrityError
  
 
 bp = Blueprint("car", __name__, url_prefix="/car")
@@ -15,13 +15,11 @@ bp = Blueprint("car", __name__, url_prefix="/car")
 def post_car_register():
     current_user: dict = get_jwt_identity()
     data: dict = request.get_json()
+    data["user_id"] = current_user["user_id"]
     
     try:
-        # if ["user_id"] == current_user["user_id"]:
         response = post_car_by_data(data, current_user)
-        print(response)
         return jsonify(response), HTTPStatus.CREATED
-        # raise NotPermission 
         
     except NotPermission as e:
             return e.message, HTTPStatus.UNAUTHORIZED
@@ -31,6 +29,10 @@ def post_car_register():
         
     except MissingKeys as e:
         return e.message, HTTPStatus.BAD_REQUEST
+
+    except IntegrityError as err:
+        response = {"message": str(err.__dict__['orig']) }
+        return response, HTTPStatus.BAD_REQUEST
 
 @bp.patch("/update/<int:car_id>")
 @jwt_required()
