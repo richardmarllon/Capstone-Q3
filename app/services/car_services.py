@@ -16,7 +16,8 @@ def post_car_by_data(data: dict, current_user : dict) -> tuple:
     
     return car
 
-def update_car_by_id(car_id: int, data: dict):
+def update_car_by_id(car_id: int, data: dict, current_user: dict):
+    check_user(data["user_id"], current_user)
     car_plate_to_format = format_car_plate(data)
     data["car_plate"] = car_plate_to_format
     
