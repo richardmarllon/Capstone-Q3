@@ -60,7 +60,7 @@ def decriptography_string(data):
     return string_criptographed
 
 
-def format_car_plate(data) -> str:
+def format_car_plate(data: dict) -> str:
     return "".join(re.findall('[0-9A-Za-z]', data.get("car_plate")))
 
 def check_missing_keys(data: dict, required_keys: list):
@@ -195,3 +195,6 @@ def transform_to_uppercase(data: dict):
             data_upper[str(key)] = value
 
     return(data_upper)
+
+def format_phone_number(data: dict) -> str:
+    return "".join(re.findall('[0-9]', data.get("insurer_number")))
