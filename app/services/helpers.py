@@ -185,3 +185,13 @@ def format_url_car(has_next, has_prev, next_page_number, prev_page_number, per_p
 def check_user(user_id, current_user):
     if not user_id == current_user['user_id']:
         raise NotPermission
+
+def transform_to_uppercase(data: dict):
+    data_upper = {}
+    for key, value in data.items():
+        if isinstance(value, str):
+            data_upper[str(key)] = value.upper()         
+        else:
+            data_upper[str(key)] = value
+
+    return(data_upper)

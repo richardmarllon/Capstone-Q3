@@ -1,24 +1,22 @@
 from sqlalchemy.sql.expression import true
 from app.models.car_model import CarModel
-from app.services.helpers import check_incorrect_keys, add_in_db, format_car_plate, commit_current_session, delete_in_db, format_query_car, format_url_car, check_user
+from app.services.helpers import check_incorrect_keys, add_in_db, format_car_plate, commit_current_session, delete_in_db, format_query_car, format_url_car, check_user, transform_to_uppercase
 
 def post_car_by_data(data: dict, current_user : dict) -> tuple:
     check_user(data["user_id"], current_user)
-
-    required_keys = ["year", "car_plate", "model", "thunk_volume", "insurer", "insurer_number", "review_date", "withdrawal_place", "city", "state", "user_id"]
+    required_keys: list = ["year", "car_plate", "model", "thunk_volume", "insurer", "insurer_number", "review_date", "withdrawal_place", "city", "state", "user_id"]
     check_incorrect_keys(data, required_keys)
-
     car_plate_to_format = format_car_plate(data)
     data["car_plate"] = car_plate_to_format
 
-    car = CarModel(**data)
+    data = transform_to_uppercase(data)
+
+    car: CarModel = CarModel(**data)
     add_in_db(car)
     
-
     return car
 
 def update_car_by_id(car_id: int, data: dict):
-
     car_plate_to_format = format_car_plate(data)
     data["car_plate"] = car_plate_to_format
     

@@ -12,7 +12,7 @@ bp = Blueprint("car", __name__, url_prefix="/car")
 
 @bp.post("/register")
 @jwt_required()
-def post_car_register():
+def post_car_register() -> tuple:
     current_user: dict = get_jwt_identity()
     data: dict = request.get_json()
     data["user_id"] = current_user["user_id"]
