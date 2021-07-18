@@ -36,7 +36,7 @@ def post_car_register() -> tuple:
 
 @bp.patch("/update/<int:car_id>")
 @jwt_required()
-def patch_car_update(car_id: int):
+def patch_car_update(car_id: int) -> tuple:
     current_user: dict = get_jwt_identity()
     data: dict = request.get_json()
     # data["user_id"] == current_user["user_id"]
@@ -44,6 +44,7 @@ def patch_car_update(car_id: int):
     try:
    
             response = update_car_by_id(car_id, data, current_user) 
+            print(type(response))
             return jsonify(response), HTTPStatus.OK
         # raise NotPermission 
        

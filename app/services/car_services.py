@@ -20,6 +20,8 @@ def update_car_by_id(car_id: int, data: dict, current_user: dict):
     check_user(data["user_id"], current_user)
     car_plate_to_format = format_car_plate(data)
     data["car_plate"] = car_plate_to_format
+
+    data = transform_to_uppercase(data)
     
     car_to_update = CarModel.query.get(car_id)
     
@@ -28,8 +30,6 @@ def update_car_by_id(car_id: int, data: dict, current_user: dict):
 
     commit_current_session()
     
-    
-
     return car_to_update
 
 def delete_car_by_id(id, current_user): 
