@@ -1,7 +1,5 @@
 from flask import Flask, Blueprint, request, jsonify
 from http import HTTPStatus
-
-# from sqlalchemy.sql.coercions import expect
 from app.services.car_services import get_car_by_id, post_car_by_data, update_car_by_id, delete_car_by_id, get_car_by_filters
 from app.exc.incorrect_keys_error import IncorrectKeysError
 from app.exc.missing_keys_error import MissingKeys
@@ -15,14 +13,15 @@ bp = Blueprint("car", __name__, url_prefix="/car")
 @bp.post("/register")
 @jwt_required()
 def post_car_register():
-    current_user = get_jwt_identity()
-    data = request.get_json()
+    current_user: dict = get_jwt_identity()
+    data: dict = request.get_json()
     
     try:
-        if data["user_id"] == current_user["user_id"]:
-            response = post_car_by_data(data)
-            return jsonify(response), HTTPStatus.CREATED
-        raise NotPermission 
+        # if ["user_id"] == current_user["user_id"]:
+        response = post_car_by_data(data, current_user)
+        print(response)
+        return jsonify(response), HTTPStatus.CREATED
+        # raise NotPermission 
         
     except NotPermission as e:
             return e.message, HTTPStatus.UNAUTHORIZED

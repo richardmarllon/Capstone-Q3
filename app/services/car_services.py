@@ -1,8 +1,10 @@
 from sqlalchemy.sql.expression import true
 from app.models.car_model import CarModel
-from app.services.helpers import check_incorrect_keys, add_in_db, format_car_plate, commit_current_session, delete_in_db, format_query_car, format_url_car
+from app.services.helpers import check_incorrect_keys, add_in_db, format_car_plate, commit_current_session, delete_in_db, format_query_car, format_url_car, check_user
 
-def post_car_by_data(data: dict) -> tuple:
+def post_car_by_data(data: dict, current_user : dict) -> tuple:
+    check_user(data["user_id"], current_user)
+
     required_keys = ["year", "car_plate", "model", "thunk_volume", "insurer", "insurer_number", "review_date", "withdrawal_place", "city", "state", "user_id"]
     check_incorrect_keys(data, required_keys)
 
