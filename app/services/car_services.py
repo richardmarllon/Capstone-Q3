@@ -5,7 +5,7 @@ from app.exc.not_permission import NotPermission
 from app.exc.not_found_error import NotFound
 
 
-def post_car_by_data(data: dict, current_user : dict) -> tuple:
+def post_car_by_data(data: dict, current_user : dict):
     check_user(data["user_id"], current_user)
     required_keys: list = ["year", "car_plate", "model", "thunk_volume", "insurer", "insurer_number", "review_date", "withdrawal_place", "city", "state", "user_id"]
     check_incorrect_keys(data, required_keys)
@@ -42,27 +42,22 @@ def update_car_by_id(car_id: int, data: dict, current_user: dict):
     return car_to_update
 
 def delete_car_by_id(id, current_user): 
-    print(current_user)
     car_to_delete = CarModel.query.get(id)
-    print("teste 1")
-    print(car_to_delete)
 
-    if car_to_delete == None:
+    if not car_to_delete:
         raise NotFound
     
     elif car_to_delete.user_id == current_user['user_id']:
-        print("teste 2")
-        print(car_to_delete.user_id)
         delete_in_db(car_to_delete)
         return ""
 
     raise NotPermission
     
 def get_car_by_filters(**data):
+    data = transform_to_uppercase(data)
 
     year, model, thunk_volume, withdrawal_place, city, state, page, per_page = format_query_car(data)
    
-
     cars = CarModel.query.filter(
         (CarModel.year==int(year) or True),
         CarModel.model.like(model),
@@ -77,5 +72,16 @@ def get_car_by_filters(**data):
 
 def get_car_by_id(id):
     car = CarModel.query.get(id)
-    
-    return car
+    print(car)
+
+    if not car:
+        print("entrou no none")
+        raise NotFound
+        # return {"msg": "aaaaaa"}
+
+    elif car:
+        print("e agora?")
+        return {"car": car, "date_ocupied": car.date_ocupied, "avaliations": car.record_lessee }
+ 
+    raise NotFound
+    # return {"teste", "aa"}

@@ -53,7 +53,7 @@ def patch_car_update(car_id: int) -> tuple:
 
 @bp.delete("/delete/<int:car_id>")
 @jwt_required()
-def del_car_delete(car_id: int):
+def del_car_delete(car_id: int) -> tuple:
     current_user = get_jwt_identity()
         
     try:
@@ -77,15 +77,17 @@ def get_cars():
 
         return {"info": {"count": total, "pages": pages, "next_page": next_url, "prev_page": prev_url}, "result": cars.items }, HTTPStatus.OK
 
-    except NotPermission as e:
-        e.message, HTTPStatus.UNAUTHORIZED
+    except NotPermission as err:
+        return err.message, HTTPStatus.UNAUTHORIZED
 
 
 @bp.get("/<int:car_id>")
 @jwt_required()
-def get_car(car_id: int):
+def get_car(car_id: int) -> tuple:
     
-    car = get_car_by_id(car_id)
-    if car:
-        return {"car": car, "date_ocupied": car.date_ocupied, "avaliations": car.record_lessee }
-    return {"msg": "not found"}, HTTPStatus.NOT_FOUND
+    try:
+        response = get_car_by_id(car_id)
+        return response, HTTPStatus.OK
+
+    except NotFound as err:
+        return err.message, HTTPStatus.NOT_FOUND
