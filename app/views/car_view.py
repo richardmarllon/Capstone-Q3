@@ -4,6 +4,8 @@ from app.services.car_services import get_car_by_id, post_car_by_data, update_ca
 from app.exc.incorrect_keys_error import IncorrectKeysError
 from app.exc.missing_keys_error import MissingKeys
 from app.exc.not_permission import NotPermission 
+from app.exc.not_found_error import NotFound
+
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from sqlalchemy.exc import IntegrityError
  
@@ -55,25 +57,21 @@ def del_car_delete(car_id: int):
     current_user = get_jwt_identity()
         
     try:
-        response = delete_car_by_id(car_id, current_user)        
-        if not response:
-            return "", HTTPStatus.NO_CONTENT
+        response: str = delete_car_by_id(car_id, current_user)        
+        return response, HTTPStatus.NO_CONTENT
 
-        raise NotPermission
-
+    except NotFound as err:
+        return err.message, HTTPStatus.NOT_FOUND
     
     except NotPermission as e:
             return e.message, HTTPStatus.UNAUTHORIZED
 
-    except:
-        return {"message": f'ID car {car_id} does not exists.'}, HTTPStatus.BAD_REQUEST
         
 @bp.get("/cars/")
 @jwt_required()
 def get_cars():
 
     try:
-
         data = request.args
         cars, next_url, prev_url, total, pages = get_car_by_filters(**data)
 

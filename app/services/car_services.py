@@ -1,6 +1,9 @@
 from sqlalchemy.sql.expression import true
 from app.models.car_model import CarModel
 from app.services.helpers import check_incorrect_keys, add_in_db, format_car_plate, commit_current_session, delete_in_db, format_query_car, format_url_car, check_user, transform_to_uppercase, format_phone_number
+from app.exc.not_permission import NotPermission
+from app.exc.not_found_error import NotFound
+
 
 def post_car_by_data(data: dict, current_user : dict) -> tuple:
     check_user(data["user_id"], current_user)
@@ -39,12 +42,21 @@ def update_car_by_id(car_id: int, data: dict, current_user: dict):
     return car_to_update
 
 def delete_car_by_id(id, current_user): 
+    print(current_user)
     car_to_delete = CarModel.query.get(id)
-    if car_to_delete.user_id == current_user['user_id']:
-        delete_in_db(car_to_delete)
+    print("teste 1")
+    print(car_to_delete)
 
-        return False
-    return True
+    if car_to_delete == None:
+        raise NotFound
+    
+    elif car_to_delete.user_id == current_user['user_id']:
+        print("teste 2")
+        print(car_to_delete.user_id)
+        delete_in_db(car_to_delete)
+        return ""
+
+    raise NotPermission
     
 def get_car_by_filters(**data):
 
