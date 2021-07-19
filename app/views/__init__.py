@@ -15,5 +15,5 @@ def init_app(app: Flask):
     app.register_blueprint(bp_lesse)
     app.register_blueprint(bp_date_ocupied)
     app.register_blueprint(bp_unavaliable_date)
-    app.register_blueprint(bp_record_locator)
+    # app.register_blueprint(bp_record_locator)
 

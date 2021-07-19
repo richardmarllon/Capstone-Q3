@@ -6,10 +6,10 @@ from flask import Blueprint, jsonify, request, json
 from http import HTTPStatus
 from app.services.record_locator_services import to_asses_locator, get_avaliation_locator, update_record_locator
 
-bp = Blueprint("rec-locator", __name__, url_prefix="/record")
+bp = Blueprint("record-locator", __name__, url_prefix="/record")
 
 @bp.post("/locator/assess")
-@jwt_required
+@jwt_required()
 def send_note_record_locator():
     try:
         data = request.get_json()
@@ -28,7 +28,7 @@ def send_note_record_locator():
         return error, HTTPStatus.UNAUTHORIZED
 
 @bp.get("/locator/<int:user_id>")
-@jwt_required
+@jwt_required()
 def avaliations_locator(user_id: int):
     
     user_locator = get_avaliation_locator(user_id)
@@ -43,7 +43,7 @@ def avaliations_locator(user_id: int):
 
 
 @bp.patch("/locator/update/<int:avaliation_id>")
-@jwt_required
+@jwt_required()
 def update_avaliation(avaliation_id):
     try:
         data = request.get_json()
