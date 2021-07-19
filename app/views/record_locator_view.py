@@ -33,18 +33,21 @@ def avaliations_locator(user_id: int):
     
     user_locator = get_avaliation_locator(user_id)
 
-    if not user_locator:
+    try:
+        return jsonify(user_locator), HTTPStatus.OK
+
+    except not user_locator:
+
         return {"message" : "not found locator"}, HTTPStatus.NOT_FOUND
 
-    return jsonify(user_locator), HTTPStatus.OK
 
 
 @bp.patch("/locator/update/<int:avaliation_id>")
 @jwt_required
 def update_avaliation(avaliation_id):
-
-    data = request.get_json()
-
-    record_locator = update_record_locator(data, avaliation_id)
-
-    return jsonify(record_locator)
+    try:
+        data = request.get_json()
+        record_locator = update_record_locator(data, avaliation_id)
+        return jsonify(record_locator), HTTPStatus.OK
+    except:
+        return jsonify({"message" : "not found avaliation"}), HTTPStatus.NOT_FOUND
