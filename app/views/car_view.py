@@ -1,28 +1,27 @@
 from flask import Flask, Blueprint, request, jsonify
 from http import HTTPStatus
-
-# from sqlalchemy.sql.coercions import expect
 from app.services.car_services import get_car_by_id, post_car_by_data, update_car_by_id, delete_car_by_id, get_car_by_filters
 from app.exc.incorrect_keys_error import IncorrectKeysError
 from app.exc.missing_keys_error import MissingKeys
 from app.exc.not_permission import NotPermission 
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from app.exc.not_found_error import NotFound
 
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from sqlalchemy.exc import IntegrityError
  
 
 bp = Blueprint("car", __name__, url_prefix="/car")
 
 @bp.post("/register")
 @jwt_required()
-def post_car_register():
-    current_user = get_jwt_identity()
-    data = request.get_json()
+def post_car_register() -> tuple:
+    current_user: dict = get_jwt_identity()
+    data: dict = request.get_json()
+    data["user_id"] = current_user["user_id"]
     
     try:
-        if data["user_id"] == current_user["user_id"]:
-            response = post_car_by_data(data)
-            return jsonify(response), HTTPStatus.CREATED
-        raise NotPermission 
+        response = post_car_by_data(data, current_user)
+        return jsonify(response), HTTPStatus.CREATED
         
     except NotPermission as e:
             return e.message, HTTPStatus.UNAUTHORIZED
@@ -33,61 +32,62 @@ def post_car_register():
     except MissingKeys as e:
         return e.message, HTTPStatus.BAD_REQUEST
 
+    except IntegrityError as err:
+        response = {"message": str(err.__dict__['orig']) }
+        return response, HTTPStatus.BAD_REQUEST
+
 @bp.patch("/update/<int:car_id>")
 @jwt_required()
-def patch_car_update(car_id: int):
-    current_user = get_jwt_identity()
-    data = request.get_json()
+def patch_car_update(car_id: int) -> tuple:
+    current_user: dict = get_jwt_identity()
+    data: dict = request.get_json()
+    data["user_id"] = current_user["user_id"]
+
     try:
-        if data["user_id"] == current_user["user_id"]:
-                
-            response = update_car_by_id(car_id, data) 
-            return jsonify(response), HTTPStatus.OK
-        raise NotPermission 
+        response = update_car_by_id(car_id, data, current_user) 
+        return jsonify(response), HTTPStatus.OK
        
     except NotPermission as e:
             return e.message, HTTPStatus.UNAUTHORIZED
-  
+    
 
 @bp.delete("/delete/<int:car_id>")
 @jwt_required()
-def del_car_delete(car_id: int):
+def del_car_delete(car_id: int) -> tuple:
     current_user = get_jwt_identity()
         
     try:
-        response = delete_car_by_id(car_id, current_user)        
-        if not response:
-            return "", HTTPStatus.NO_CONTENT
+        response: str = delete_car_by_id(car_id, current_user)        
+        return response, HTTPStatus.NO_CONTENT
 
-        raise NotPermission
-
+    except NotFound as err:
+        return err.message, HTTPStatus.NOT_FOUND
     
     except NotPermission as e:
             return e.message, HTTPStatus.UNAUTHORIZED
 
-    except:
-        return {"message": f'ID car {car_id} does not exists.'}, HTTPStatus.BAD_REQUEST
         
 @bp.get("/cars/")
 @jwt_required()
 def get_cars():
 
     try:
-
         data = request.args
-        cars, next_url, prev_url, total, pages = get_car_by_filters(**data)
+        response = get_car_by_filters(**data)
 
-        return {"info": {"count": total, "pages": pages, "next_page": next_url, "prev_page": prev_url}, "result": cars.items }, HTTPStatus.OK
+        return response, HTTPStatus.OK
 
-    except NotPermission as e:
-        e.message, HTTPStatus.UNAUTHORIZED
+    except NotFound as err:
+        return err.message, HTTPStatus.UNAUTHORIZED
 
 
 @bp.get("/<int:car_id>")
 @jwt_required()
-def get_car(car_id: int):
+def get_car(car_id: int) -> tuple:
     
-    car = get_car_by_id(car_id)
-    if car:
-        return {"car": car, "date_ocupied": car.date_ocupied, "avaliations": car.record_lessee }
-    return {"msg": "not found"}, HTTPStatus.NOT_FOUND
+    try:
+        response = get_car_by_id(car_id)
+        return response, HTTPStatus.OK
+
+    except NotFound as err:
+        return err.message, HTTPStatus.NOT_FOUND
