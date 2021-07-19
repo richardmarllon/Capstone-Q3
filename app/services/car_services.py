@@ -68,20 +68,17 @@ def get_car_by_filters(**data):
 
     next_url, prev_url = format_url_car(cars.has_next, cars.has_prev, cars.next_num, cars.prev_num, per_page, data)
 
-    return (cars, next_url, prev_url, cars.total, cars.pages)
+    return  {"info": {"count": cars.total, "pages": cars.pages, "next_page": next_url, "prev_page": prev_url}, "result": cars.items }
+    
 
 def get_car_by_id(id):
     car = CarModel.query.get(id)
-    print(car)
 
     if not car:
-        print("entrou no none")
         raise NotFound
-        # return {"msg": "aaaaaa"}
+
 
     elif car:
-        print("e agora?")
         return {"car": car, "date_ocupied": car.date_ocupied, "avaliations": car.record_lessee }
  
     raise NotFound
-    # return {"teste", "aa"}

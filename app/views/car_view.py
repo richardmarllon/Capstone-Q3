@@ -73,11 +73,11 @@ def get_cars():
 
     try:
         data = request.args
-        cars, next_url, prev_url, total, pages = get_car_by_filters(**data)
+        response = get_car_by_filters(**data)
 
-        return {"info": {"count": total, "pages": pages, "next_page": next_url, "prev_page": prev_url}, "result": cars.items }, HTTPStatus.OK
+        return response, HTTPStatus.OK
 
-    except NotPermission as err:
+    except NotFound as err:
         return err.message, HTTPStatus.UNAUTHORIZED
 
 
