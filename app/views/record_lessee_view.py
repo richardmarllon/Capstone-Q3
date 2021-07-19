@@ -1,8 +1,10 @@
+from app.exc.not_permission import NotPermission
+from app.exc.not_found_error import NotFound
 from app.exc.missing_keys_error import MissingKeys
 from sqlalchemy.exc import IntegrityError
 from app.exc.incorrect_keys_error import IncorrectKeysError
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required
 from http import HTTPStatus
 from app.exc.incorrect_keys_error import IncorrectKeysError
 from app.services.record_lessee_services import post_record_lessee_by_data, search_record_lessee_by_id, delete_record_lessee_by_id, update_record_lessee_by_id
@@ -11,16 +13,15 @@ bp = Blueprint("rec-lessee",__name__, url_prefix="/rlessee")
 
 @bp.post("/register_lessee")
 def post_record_lessee_register():
+    data = request.get_json()
+
     try:
-        data = request.get_json()
         response = post_record_lessee_by_data(data)
         return jsonify(response)
-
     except IncorrectKeysError as err:
         return err.message
     except MissingKeys as err:
         return err.message
-
     except IntegrityError as err:
         response = {"message": str(err.__dict__['orig']) }
         return response, HTTPStatus.BAD_REQUEST
@@ -29,31 +30,33 @@ def post_record_lessee_register():
 @bp.patch("/register_lessee/<int:user_id>")
 @jwt_required()
 def patch_record_lessee_update(user_id: int):
-    current_user = get_jwt_identity()
     data = request.get_json()
 
-    if user_id == current_user['user_id']:
-            return jsonify(update_record_lessee_by_id(user_id, data))
-    return {"message": "You need to own the source to modify."}, HTTPStatus.FORBIDDEN
+    try:
+        response = update_record_lessee_by_id(user_id, data)
+        return jsonify(response)
+    except NotPermission as err:
+        return err.message, HTTPStatus.UNAUTHORIZED
 
 
 @bp.delete("/register_lessee/<int:user_id>")
 @jwt_required()
 def del_record_lessee_delete(user_id: int):
-    current_user = get_jwt_identity()
-    if id == current_user['user_id']:
+
+    try:
         return delete_record_lessee_by_id(user_id)
-    return {"message": "You need to own the source to modify."}, HTTPStatus.FORBIDDEN
+    except NotPermission as err:
+        return err.message, HTTPStatus.UNAUTHORIZED
     
 
 
 @bp.get("/register_lessee/<int:id>")
-def get_record_lessee(id):
+def get_record_lessee(id: int):
     try:
-        return jsonify(search_record_lessee_by_id(id))
-        
+        response = search_record_lessee_by_id(id)
+        return jsonify(response)
+    
     except IncorrectKeysError as err:
         return err.message
-
-    except KeyError as err:
-        return {"message": "User not found"}, HTTPStatus.NOT_FOUND
+    except NotFound as err:
+        return err.message, HTTPStatus.NOT_FOUND

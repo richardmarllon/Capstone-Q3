@@ -13,18 +13,19 @@ table to get the record of the lesse
 |  comment   | str  | user experience comment  |
 |    date    | str  |       record date        |
 
-## Get record lesse by id
+## `Endpoints and methods:`
 
--> URL
+## Get record lessee by id
 
-`GET https://capstone-q3.herokuapp.com/rlesse/register_lesse/<id>`
+-> URL and method:
 
--> Example
+> GET: `https://capstone-q3.herokuapp.com/rlesse/register_lesse/<id>`
+
+**Response example:**
 
 Request: `GET https://capstone-q3.herokuapp.com/rlesse/register_lesse/1`
 
-Response:
-
+```JSON
 {
 "id": 1,
 "lessee_id": 1,
@@ -33,25 +34,29 @@ Response:
 "comment": "clean and comfortable car",
 "date": "2021/07/13"
 }
+```
 
 ## Update record lesse by id
 
 -> URL
 
-`PATCH https://capstone-q3.herokuapp.com/rlesse/register_lesse/<id>`
+> PATCH `https://capstone-q3.herokuapp.com/rlesse/register_lesse/<id>`
 
 -> Example
 
 Request: `PATCH https://capstone-q3.herokuapp.com/rlesse/register_lesse/1`
 
-Request Body:
+**Body request example:**
 
+```JSON
 {
 "comment": "adorable lesse"
 }
+```
 
-Response:
+**Response example:**
 
+```JSON
 {
 "id": 1,
 "lessee_id": 1,
@@ -60,33 +65,37 @@ Response:
 "comment": "adorable lesse",
 "date": "2021/07/13"
 }
+```
 
 ## Delete record lesse by id
 
 -> URL
 
-`DEL https://capstone-q3.herokuapp.com/rlesse/register_lesse/<id>`
+> DEL `https://capstone-q3.herokuapp.com/rlesse/register_lesse/<id>`
 
 -> Example
 
 Request: `DEL https://capstone-q3.herokuapp.com/rlesse/register_lesse/1`
 
-Response:
+**Response example:**
 
-''
+```JSON
+" "
+```
 
 ## Create record lesse
 
 -> URL
 
-`POST https://capstone-q3.herokuapp.com/rlesse/register_lesse`
+> POST `https://capstone-q3.herokuapp.com/rlesse/register_lesse`
 
 -> Example
 
 Request: `POST https://capstone-q3.herokuapp.com/rlesse/register_lesse`
 
-Request Body:
+**Body request example:**
 
+```JSON
 {
 "lessee_id": 5,
 "car_id": 10,
@@ -94,9 +103,11 @@ Request Body:
 "comment": "DIRTY CAR",
 "date": "2021/07/15"
 }
+```
 
-Response:
+**Response example:**
 
+```JSON
 {
 "id": 2,
 "lessee_id": 5,
@@ -105,6 +116,7 @@ Response:
 "comment": "DIRTY CAR",
 "date": "2021/07/15"
 }
+```
 
 # User locator
 
@@ -112,34 +124,36 @@ table to get the data of user locator
 
 ## Schemas
 
-
 # User Lesse
+
 Table to get the user lessee
 
 ## Schemas
 
-|    key     | type |       description        |
-| :--------: | :--: | :----------------------: |
-| id | int | id of the user |
-| name | str | user name |
-| last_name | str | user's last name |
-| email | str | user's email |
-| city | str | user's city  |
-| state | str | user's state |
-| cnh | str | user's CNH number |
-| cpf | str | user's CPF number |
-| password | str | user's password |
-
+|    key    | type |    description    |
+| :-------: | :--: | :---------------: |
+|    id     | int  |  id of the user   |
+|   name    | str  |     user name     |
+| last_name | str  | user's last name  |
+|   email   | str  |   user's email    |
+|   city    | str  |    user's city    |
+|   state   | str  |   user's state    |
+|    cnh    | str  | user's CNH number |
+|    cpf    | str  | user's CPF number |
+| password  | str  |  user's password  |
 
 ## `Endpoints and methods:`
-## Register 
+
+## Register
+
 -> URL and method:
 
 > POST:` https://capstone-q3.herokuapp.com/lessee/register`
 
 **Body request example:**
- ```JSON 
- {
+
+```JSON
+{
 	"email": "email@email.com",
 	"password": "123aA",
 	"name": "user",
@@ -150,7 +164,9 @@ Table to get the user lessee
 	"cnh": "12345678911"
 }
 ```
+
 Response: `status 201 - CREATED`
+
 ```JSON
 {
     "id": 1,
@@ -162,22 +178,24 @@ Response: `status 201 - CREATED`
 }
 ```
 
+## Login
 
-## Login 
 -> URL and method:
 
 > POST:` https://capstone-q3.herokuapp.com/lessee/login`
 
 **Body request example:**
+
 ```JSON
 {
 	"cpf": "111.222.333-44",
 	"password": "123aA"
-	
+
 }
 ```
 
 Response: `status 200 - OK`
+
 ```JSON
 {
     "user": {
@@ -192,7 +210,8 @@ Response: `status 200 - OK`
 }
 ```
 
-## Get user 
+## Get user
+
 -> URL and method:
 
 > GET:` https://capstone-q3.herokuapp.com/lessee/user/<id>`
@@ -202,6 +221,7 @@ Response: `status 200 - OK`
 GET without a body: `https://capstone-q3.herokuapp.com/lessee/user/1`
 
 Response: `status 200 - OK`
+
 ```JSON
 {
     "user": {
@@ -223,6 +243,7 @@ Response: `status 200 - OK`
 You can change any key from your own user.
 
 URL and method:
+
 > PATCH: `https://capstone-q3.herokuapp.com/lessee/update/<id>`
 
 **Request example:**
@@ -233,19 +254,23 @@ Authorization:
 
 ```javascript
 {
-    headers: {Authorization: 'Bearer access_token'}
+    headers: {
+        Authorization: "Bearer access_token";
+    }
 }
 ```
 
 Body:
+
 ```JSON
 {
 	"email": "new@email.com",
 	"password": "anotherPass"
 }
-``` 
+```
 
 Response: `status 200 - OK`
+
 ```JSON
 {
     "id": 1,
@@ -258,6 +283,7 @@ Response: `status 200 - OK`
 ```
 
 ## Delete user
+
 **You need to own the resource and be logged to delete.**
 
 -> URL and method:
@@ -272,12 +298,10 @@ Authorization:
 
 ```javascript
 {
-    headers: {Authorization: 'Bearer access_token'}
+    headers: {
+        Authorization: "Bearer access_token";
+    }
 }
 ```
+
 Response: ` status 204 - NO CONTENT`
-
-
-
-
-
