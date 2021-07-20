@@ -234,6 +234,7 @@ Response: `status 200 - OK`
         "last_name": "test",
         "city": "Rio de Janeiro",
         "state": "RJ",
+        "phone_number": "44999885544",
         "email": "email@email.com"
     },
     "avaliations_received": [],
@@ -282,6 +283,7 @@ Response: `status 200 - OK`
     "last_name": "test",
     "city": "Rio de Janeiro",
     "state": "RJ",
+    "phone_number": "44999885544",
     "email": "new@email.com"
 }
 ```
