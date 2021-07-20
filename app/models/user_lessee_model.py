@@ -22,6 +22,8 @@ class UserLesseeModel(db.Model):
     city = Column(String(55), nullable=False)
     state = Column(String(2), nullable=False)
     cnh = Column(Text, nullable=False, unique=True)
+    phone_number = Column(String(20), nullable=False)
+    
 
     cpf_encrypt = Column(String(255), nullable=False, unique=True)
     password_hash = Column(String(), nullable=False)
