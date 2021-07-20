@@ -1,3 +1,4 @@
+from app.exc.not_permission import NotPermission
 import ipdb
 from ipdb.__main__ import set_trace
 from app.exc.missing_keys_error import MissingKeys
@@ -59,7 +60,7 @@ def decriptography_string(data):
     return string_criptographed
 
 
-def format_car_plate(data) -> str:
+def format_car_plate(data: dict) -> str:
     return "".join(re.findall('[0-9A-Za-z]', data.get("car_plate")))
 
 def check_missing_keys(data: dict, required_keys: list):
@@ -181,4 +182,19 @@ def format_url_car(has_next, has_prev, next_page_number, prev_page_number, per_p
     return (next_url, prev_url)
 
     
-    
+def check_user(user_id, current_user):
+    if not user_id == current_user['user_id']:
+        raise NotPermission
+
+def transform_to_uppercase(data: dict):
+    data_upper = {}
+    for key, value in data.items():
+        if isinstance(value, str):
+            data_upper[str(key)] = value.upper()         
+        else:
+            data_upper[str(key)] = value
+
+    return(data_upper)
+
+def format_phone_number(data: dict) -> str:
+    return "".join(re.findall('[0-9]', data.get("insurer_number")))
