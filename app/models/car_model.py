@@ -18,7 +18,9 @@ class CarModel(db.Model):
     withdrawal_place: str 
     city: str
     state: str    
-        
+    license_plate: str
+
+    
     id = Column(Integer, primary_key=True)
 
     year = Column(Integer, nullable=False)
