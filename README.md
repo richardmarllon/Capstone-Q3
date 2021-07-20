@@ -124,7 +124,7 @@ table to get the data of user locator
 
 ## Schemas
 
-# User Lesse
+# User Lessee
 
 Table to get the user lessee
 
@@ -135,6 +135,7 @@ Table to get the user lessee
 |    id     | int  |  id of the user   |
 |   name    | str  |     user name     |
 | last_name | str  | user's last name  |
+| phone_number| str | user's phone number |
 |   email   | str  |   user's email    |
 |   city    | str  |    user's city    |
 |   state   | str  |   user's state    |
@@ -158,6 +159,7 @@ Table to get the user lessee
 	"password": "123aA",
 	"name": "user",
 	"last_name": "test",
+    "phone_number": "(44)99988-5544",
 	"cpf": "111.222.333-44",
 	"city": "Rio de Janeiro",
 	"state": "RJ",
@@ -174,6 +176,7 @@ Response: `status 201 - CREATED`
     "last_name": "test",
     "city": "Rio de Janeiro",
     "state": "RJ",
+    "phone_number": "44999885544",
     "email": "email@email.com"
 }
 ```
@@ -204,7 +207,8 @@ Response: `status 200 - OK`
         "last_name": "test",
         "city": "Rio de Janeiro",
         "state": "RJ",
-        "email": "email@email.com"
+        "email": "email@email.com",
+        "phone_number": "44999885544"
     },
     "access_token": "eyJUzI1NiJ9.eyJmcmVzaCI6ZmFsc2Us2VyINnOSwiZXhwIjoxNjI2NTkxMTE5fQ.AOpSzar1EoWt2Uyp0jZM"
 }
@@ -230,6 +234,7 @@ Response: `status 200 - OK`
         "last_name": "test",
         "city": "Rio de Janeiro",
         "state": "RJ",
+        "phone_number": "44999885544",
         "email": "email@email.com"
     },
     "avaliations_received": [],
@@ -278,6 +283,7 @@ Response: `status 200 - OK`
     "last_name": "test",
     "city": "Rio de Janeiro",
     "state": "RJ",
+    "phone_number": "44999885544",
     "email": "new@email.com"
 }
 ```
