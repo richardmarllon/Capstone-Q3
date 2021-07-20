@@ -24,6 +24,7 @@ class UserLocatorModel(db.Model):
     cpf_encrypt = Column(String(), nullable=False, unique=True)
     address = Column(Text, nullable=False)
     cep = Column(String(10), nullable=False)
+    phone_number = Column(String(20), nullable=False)
 
     @property
     def password(self):

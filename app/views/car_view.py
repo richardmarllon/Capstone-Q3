@@ -67,7 +67,7 @@ def del_car_delete(car_id: int) -> tuple:
             return e.message, HTTPStatus.UNAUTHORIZED
 
         
-@bp.get("/cars/")
+@bp.get("/")
 @jwt_required()
 def get_cars():
 
