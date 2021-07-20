@@ -11,7 +11,7 @@ class CarModel(db.Model):
     id: int
     year: int
     model: str
-    thunk_volume: int
+    trunk_volume: int
     insurer: str
     insurer_number: str
     review_date: str
@@ -22,9 +22,9 @@ class CarModel(db.Model):
     id = Column(Integer, primary_key=True)
 
     year = Column(Integer, nullable=False)
-    car_plate = Column(String(7), nullable=False, unique=True)
+    license_plate = Column(String(7), nullable=False, unique=True)
     model = Column(String(20), nullable=False)
-    thunk_volume = Column(Integer, default=None)
+    trunk_volume = Column(Integer, default=None)
     insurer = Column(String(55), nullable=False)
     insurer_number = Column(String(20), nullable=False)
     review_date = Column(Date, nullable=False)

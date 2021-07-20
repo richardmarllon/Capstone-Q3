@@ -305,3 +305,244 @@ Authorization:
 ```
 
 Response: ` status 204 - NO CONTENT`
+
+# Car
+
+Table to get the car
+
+## Schemas
+
+|       key        | type |         description         |
+| :--------------: | :--: | :-------------------------: |
+|        id        | int  |        id of the car        |
+|       year       | int  |       year of the car       |
+|  license_plate   | str  |     license_plate plate     |
+|      model       | str  |          car model          |
+|   trunk_volume   | int  |     car trunk capacity      |
+|     insurer      | str  | car insurance company name  |
+|  insurer_number  | str  | car insurance company phone |
+|   review_date    | str  |   date of last car review   |
+| withdrawal_place | str  |    car withdrawal place     |
+|       city       | str  |          car city           |
+|      state       | str  |          car state          |
+|     user_id      | int  |      id of the locator      |
+
+## `Endpoints and methods:`
+
+---
+
+## Every route needs authorization
+
+Authorization:
+
+```javascript
+{
+    headers: {
+        Authorization: "Bearer access_token";
+    }
+}
+```
+
+---
+
+## Routes that need permission
+
+## Register
+
+**You need be the locator user and be logged in to register**
+
+-> URL and method:
+
+> POST:` https://capstone-q3.herokuapp.com/car/register`
+
+**Body request example:**
+
+```JSON
+{
+	"year": 2019,
+	"license_plate": "abc123",
+	"model": "Prisma",
+	"trunk_volume": 54,
+	"insurer": "Teste Seguros",
+	"insurer_number": "(12) 1234-56789",
+	"review_date": "2001-07-12",
+	"withdrawal_place": "Shopping Curitiba",
+	"city": "Curitiba",
+	"state": "pr"
+}
+```
+
+Response: `status 201 - CREATED`
+
+```JSON
+{
+    "id": 1,
+    "year": 2019,
+    "model": "PRISMA",
+    "trunk_volume": 54,
+    "insurer": "TESTE SEGUROS",
+    "insurer_number": "12123456789",
+    "review_date": "Thu, 12 Jul 2001 00:00:00 GMT",
+    "withdrawal_place": "SHOPPING CURITIBA",
+    "city": "CURITIBA",
+    "state": "PR"
+}
+```
+
+## Update car
+
+**You need to own the resource to update.**
+You can change any key from your own user.
+
+URL and method:
+
+> PATCH: `https://capstone-q3.herokuapp.com/car/update/<id>`
+
+**Request example:**
+
+PATCH: `https://capstone-q3.herokuapp.com/car/update/1`
+
+Body:
+
+```JSON
+{
+	"review_date": "2021-07-12",
+	"withdrawal_place": "Shopping Palladium"
+}
+```
+
+Response: `status 200 - OK`
+
+```JSON
+{
+    "id": 1,
+    "year": 2019,
+    "model": "PRISMA",
+    "trunk_volume": 54,
+    "insurer": "TESTE SEGUROS",
+    "insurer_number": "12123456789",
+    "review_date": "Mon, 12 Jul 2021 00:00:00 GMT",
+    "withdrawal_place": "SHOPPING PALLADIUM",
+    "city": "CURITIBA",
+    "state": "PR"
+}
+```
+
+## Delete user
+
+**You need to own the resource to delete.**
+
+-> URL and method:
+
+> DELETE:` https://capstone-q3.herokuapp.com/car/delete/<id>`
+
+**Request example:**
+
+DELETE without a body: `https://capstone-q3.herokuapp.com/car/delete/1`
+
+Response: ` status 204 - NO CONTENT`
+
+---
+
+## Routes don't that need permission
+
+**All GET Routes don't need permission.**
+
+In response header are the information about total cars quantity, pagination, next_page that access the next page and prev_page that access the previous page
+
+Response header:
+
+```JSON
+{
+    "info": {
+    "count": 11,
+    "pages": 1,
+    "next_page": null,
+    "prev_page": null
+  },
+```
+
+## Get cars
+
+-> URL and method to get all cars:
+
+> GET:` https://capstone-q3.herokuapp.com/car/cars`
+
+Response: `status 200 - OK`
+
+```JSON
+{
+  "result": [
+    {
+       "id": 1,
+       "year": 2019,
+       "model": "PRISMA",
+       "trunk_volume": 54,
+       "insurer": "TESTE SEGUROS",
+       "insurer_number": "12123456789",
+       "review_date": "Thu, 12 Jul 2001 00:00:00     GMT",
+       "withdrawal_place": "SHOPPING CURITIBA",
+       "city": "CURITIBA",
+       "state": "PR"
+    },
+  ]
+}
+```
+
+-> URL and method to get cars with parameters:
+
+> GET:` https://capstone-q3.herokuapp.com/car/cars?<parameters=values>`
+
+**Request example:**
+
+GET without a body: `https://capstone-q3.herokuapp.com/car/cars?model=prisma&withdrawal_place=curitiba`
+
+Response: `status 200 - OK`
+
+```JSON
+  "result": [
+    {
+      "id": 1,
+      "year": 2019,
+      "model": "PRISMA",
+      "trunk_volume": 54,
+      "insurer": "TESTE SEGUROS",
+      "insurer_number": "12123456789",
+      "review_date": "Thu, 12 Jul 2001 00:00:00 GMT",
+      "withdrawal_place": "SHOPPING CURITIBA",
+      "city": "CURITIBA",
+      "state": "PR"
+    }
+  ]
+```
+
+## Get cars by id
+
+-> URL and method to get by id:
+
+GET:` https://capstone-q3.herokuapp.com/car/<id>`
+
+**Request example:**
+
+GET without a body: `https://capstone-q3.herokuapp.com/car/1`
+
+Response: `status 200 - OK`
+
+```JSON
+{
+    "car": {
+    "id": 1,
+    "year": 2019,
+    "model": "PRISMA",
+    "trunk_volume": 54,
+    "insurer": "TESTE SEGUROS",
+    "insurer_number": "12123456789",
+    "review_date": "Thu, 12 Jul 2001 00:00:00 GMT",
+    "withdrawal_place": "SHOPPING CURITIBA",
+    "city": "CURITIBA",
+    "state": "PR"
+  },
+  "date_ocupied": [],
+  "avaliations": []
+}
+```
