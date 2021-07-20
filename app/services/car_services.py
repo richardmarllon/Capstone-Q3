@@ -25,7 +25,6 @@ def post_car_by_data(data: dict, current_user : dict):
 def update_car_by_id(car_id: int, data: dict, current_user: dict):
     check_user(data["user_id"], current_user)
   
-
     data = transform_to_uppercase(data)
     
     car_to_update: CarModel = CarModel.query.get(car_id)
@@ -33,7 +32,6 @@ def update_car_by_id(car_id: int, data: dict, current_user: dict):
     if data.get("car_plate"): 
         car_plate_to_format = format_car_plate(data)
         car_to_update.car_plate = car_plate_to_format
-        print(car_to_update.car_plate)
         
     if data.get("insurer_number"):
         insurer_number_to_format = format_phone_number(data)
