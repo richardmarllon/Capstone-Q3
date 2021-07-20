@@ -1,5 +1,6 @@
 from flask_jwt_extended.utils import get_jwt_identity
 from flask_jwt_extended.view_decorators import jwt_required
+from app.exc.not_found_error import NotFound
 from app.exc.incorrect_keys_error import IncorrectKeysError
 from app.exc.missing_keys_error import MissingKeys
 from flask import Blueprint, jsonify, request, json
@@ -36,9 +37,8 @@ def avaliations_locator(user_id: int):
     try:
         return jsonify(user_locator), HTTPStatus.OK
 
-    except not user_locator:
-
-        return {"message" : "not found locator"}, HTTPStatus.NOT_FOUND
+    except NotFound as err:
+        return err.message, HTTPStatus.NOT_FOUND
 
 
 
@@ -49,5 +49,5 @@ def update_avaliation(avaliation_id):
         data = request.get_json()
         record_locator = update_record_locator(data, avaliation_id)
         return jsonify(record_locator), HTTPStatus.OK
-    except:
-        return jsonify({"message" : "not found avaliation"}), HTTPStatus.NOT_FOUND
+    except NotFound as err:
+        return err.message, HTTPStatus.NOT_FOUND
