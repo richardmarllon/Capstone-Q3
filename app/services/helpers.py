@@ -60,8 +60,8 @@ def decriptography_string(data):
     return string_criptographed
 
 
-def format_car_plate(data: dict) -> str:
-    return "".join(re.findall('[0-9A-Za-z]', data.get("car_plate")))
+def format_license_plate(data: dict) -> str:
+    return "".join(re.findall('[0-9A-Za-z]', data.get("license_plate")))
 
 def check_missing_keys(data: dict, required_keys: list):
     missing_keys = [key for key in required_keys if key not in data.keys()]
@@ -136,7 +136,7 @@ def format_query_car(data: dict):
     default_value=""
     
     year = data.get("year") or 0
-    thunk_volume = data.get("thunk_volume") or 0
+    trunk_volume = data.get("trunk_volume") or 0
     
     model ="%{}%".format(data.get("model") or default_value)
     withdrawal_place ="%{}%".format(data.get("withdrawal_place") or default_value)
@@ -145,12 +145,12 @@ def format_query_car(data: dict):
     page = data.get("page") or default_page
     per_page = data.get("per_page") or default_per_page
 
-    return ( year, model, thunk_volume, withdrawal_place, city, state, page, per_page)
+    return ( year, model, trunk_volume, withdrawal_place, city, state, page, per_page)
 
 
 def format_url_car(has_next, has_prev, next_page_number, prev_page_number, per_page, data):
     
-    year, model, thunk_volume, withdrawal_place, city, state = ("","","","","","")
+    year, model, trunk_volume, withdrawal_place, city, state = ("","","","","","")
 
     next_url = None
     prev_url = None
@@ -161,8 +161,8 @@ def format_url_car(has_next, has_prev, next_page_number, prev_page_number, per_p
     if data.get("model"):
         model = "&model={}".format(data.get("model"))
 
-    if data.get("thunk_volume"):
-        thunk_volume = "&thunk_volume={}".format(data.get("thunk_volume"))
+    if data.get("trunk_volume"):
+        trunk_volume = "&trunk_volume={}".format(data.get("trunk_volume"))
 
     if data.get("withdrawal_place"):
         withdrawal_place = "&withdrawal_place={}".format(data.get("withdrawal_place"))
@@ -174,10 +174,10 @@ def format_url_car(has_next, has_prev, next_page_number, prev_page_number, per_p
         state = "&state={}".format(data.get("state"))
 
     if has_next and next_page_number:
-        next_url = f"http://127.0.0.1:5000/car/cars/?per_page={per_page}&page={next_page_number}" + year + model + thunk_volume + withdrawal_place + city + state
+        next_url = f"http://127.0.0.1:5000/car/cars/?per_page={per_page}&page={next_page_number}" + year + model + trunk_volume + withdrawal_place + city + state
     
     if has_prev and prev_page_number:
-        prev_url = f"http://127.0.0.1:5000/car/cars/?per_page={per_page}&page={prev_page_number}" + year + model + thunk_volume + withdrawal_place + city + state
+        prev_url = f"http://127.0.0.1:5000/car/cars/?per_page={per_page}&page={prev_page_number}" + year + model + trunk_volume + withdrawal_place + city + state
     
     return (next_url, prev_url)
 
