@@ -24,16 +24,21 @@ def post_car_by_data(data: dict, current_user : dict):
 
 def update_car_by_id(car_id: int, data: dict, current_user: dict):
     check_user(data["user_id"], current_user)
-    car_plate_to_format = format_car_plate(data)
-    insurer_number_to_format = format_phone_number(data)
-
-    data["car_plate"] = car_plate_to_format
-    data["insurer_number"] = insurer_number_to_format
+  
 
     data = transform_to_uppercase(data)
     
-    car_to_update = CarModel.query.get(car_id)
+    car_to_update: CarModel = CarModel.query.get(car_id)
     
+    if data.get("car_plate"): 
+        car_plate_to_format = format_car_plate(data)
+        car_to_update.car_plate = car_plate_to_format
+        print(car_to_update.car_plate)
+        
+    if data.get("insurer_number"):
+        insurer_number_to_format = format_phone_number(data)
+        car_to_update.insurer_number = insurer_number_to_format
+
     for key, value in data.items():
         setattr(car_to_update, key, value)
 

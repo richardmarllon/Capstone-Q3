@@ -112,34 +112,36 @@ table to get the data of user locator
 
 ## Schemas
 
-
 # User Lesse
+
 Table to get the user lessee
 
 ## Schemas
 
-|    key     | type |       description        |
-| :--------: | :--: | :----------------------: |
-| id | int | id of the user |
-| name | str | user name |
-| last_name | str | user's last name |
-| email | str | user's email |
-| city | str | user's city  |
-| state | str | user's state |
-| cnh | str | user's CNH number |
-| cpf | str | user's CPF number |
-| password | str | user's password |
-
+|    key    | type |    description    |
+| :-------: | :--: | :---------------: |
+|    id     | int  |  id of the user   |
+|   name    | str  |     user name     |
+| last_name | str  | user's last name  |
+|   email   | str  |   user's email    |
+|   city    | str  |    user's city    |
+|   state   | str  |   user's state    |
+|    cnh    | str  | user's CNH number |
+|    cpf    | str  | user's CPF number |
+| password  | str  |  user's password  |
 
 ## `Endpoints and methods:`
-## Register 
+
+## Register
+
 -> URL and method:
 
 > POST:` https://capstone-q3.herokuapp.com/lessee/register`
 
 **Body request example:**
- ```JSON 
- {
+
+```JSON
+{
 	"email": "email@email.com",
 	"password": "123aA",
 	"name": "user",
@@ -150,7 +152,9 @@ Table to get the user lessee
 	"cnh": "12345678911"
 }
 ```
+
 Response: `status 201 - CREATED`
+
 ```JSON
 {
     "id": 1,
@@ -162,22 +166,24 @@ Response: `status 201 - CREATED`
 }
 ```
 
+## Login
 
-## Login 
 -> URL and method:
 
 > POST:` https://capstone-q3.herokuapp.com/lessee/login`
 
 **Body request example:**
+
 ```JSON
 {
 	"cpf": "111.222.333-44",
 	"password": "123aA"
-	
+
 }
 ```
 
 Response: `status 200 - OK`
+
 ```JSON
 {
     "user": {
@@ -192,7 +198,8 @@ Response: `status 200 - OK`
 }
 ```
 
-## Get user 
+## Get user
+
 -> URL and method:
 
 > GET:` https://capstone-q3.herokuapp.com/lessee/user/<id>`
@@ -202,6 +209,7 @@ Response: `status 200 - OK`
 GET without a body: `https://capstone-q3.herokuapp.com/lessee/user/1`
 
 Response: `status 200 - OK`
+
 ```JSON
 {
     "user": {
@@ -223,6 +231,7 @@ Response: `status 200 - OK`
 You can change any key from your own user.
 
 URL and method:
+
 > PATCH: `https://capstone-q3.herokuapp.com/lessee/update/<id>`
 
 **Request example:**
@@ -233,19 +242,23 @@ Authorization:
 
 ```javascript
 {
-    headers: {Authorization: 'Bearer access_token'}
+    headers: {
+        Authorization: "Bearer access_token";
+    }
 }
 ```
 
 Body:
+
 ```JSON
 {
 	"email": "new@email.com",
 	"password": "anotherPass"
 }
-``` 
+```
 
 Response: `status 200 - OK`
+
 ```JSON
 {
     "id": 1,
@@ -258,6 +271,7 @@ Response: `status 200 - OK`
 ```
 
 ## Delete user
+
 **You need to own the resource and be logged to delete.**
 
 -> URL and method:
@@ -272,12 +286,140 @@ Authorization:
 
 ```javascript
 {
-    headers: {Authorization: 'Bearer access_token'}
+    headers: {
+        Authorization: "Bearer access_token";
+    }
 }
 ```
+
 Response: ` status 204 - NO CONTENT`
 
+# Car
 
+Table to get the car
 
+## Schemas
 
+|       key        | type |         description         |
+| :--------------: | :--: | :-------------------------: |
+|        id        | int  |        id of the car        |
+|       year       | int  |       year of the car       |
+|  license_plate   | str  |     license_plate plate     |
+|      model       | str  |          car model          |
+|   trunk_volume   | int  |     car trunk capacity      |
+|     insurer      | str  | car insurance company name  |
+|  insurer_number  | str  | car insurance company phone |
+|   review_date    | str  |   date of last car review   |
+| withdrawal_place | str  |    car withdrawal place     |
+|       city       | str  |          car city           |
+|      state       | str  |          car state          |
+|     user_id      | int  |      id of the locator      |
 
+## `Endpoints and methods:`
+
+---
+
+## Every route needs authorization
+
+Authorization:
+
+```javascript
+{
+    headers: {
+        Authorization: "Bearer access_token";
+    }
+}
+```
+
+---
+
+## Routes that need permission
+
+## Register
+
+**You need be the locator user and be logged in to register**
+
+-> URL and method:
+
+> POST:` https://capstone-q3.herokuapp.com/car/register`
+
+**Body request example:**
+
+```JSON
+{
+	"year": 2019,
+	"car_plate": "abc123",
+	"model": "Prisma",
+	"thunk_volume": 54,
+	"insurer": "Teste Seguros",
+	"insurer_number": "(12) 1234-56789",
+	"review_date": "2001-07-12",
+	"withdrawal_place": "Shopping Curitiba",
+	"city": "Curitiba",
+	"state": "pr"
+}
+```
+
+Response: `status 201 - CREATED`
+
+```JSON
+{
+  "id": 1,
+  "year": 2019,
+  "model": "PRISMA",
+  "thunk_volume": 54,
+  "insurer": "TESTE SEGUROS",
+  "insurer_number": "12123456789",
+  "review_date": "Thu, 12 Jul 2001 00:00:00 GMT",
+  "withdrawal_place": "SHOPPING CURITIBA",
+  "city": "CURITIBA",
+  "state": "PR"
+}
+```
+
+## Update car
+
+**You need to own the resource and be logged to update.**
+You can change any key from your own user.
+
+URL and method:
+
+> PATCH: `https://capstone-q3.herokuapp.com/car/update/<id>`
+
+**Request example:**
+
+PATCH: `https://capstone-q3.herokuapp.com/car/update/1`
+
+Authorization:
+
+```javascript
+{
+    headers: {
+        Authorization: "Bearer access_token";
+    }
+}
+```
+
+Body:
+
+```JSON
+{
+	"email": "new@email.com",
+	"password": "anotherPass"
+}
+```
+
+Response: `status 200 - OK`
+
+```JSON
+{
+    "id": 1,
+    "name": "user",
+    "last_name": "test",
+    "city": "Rio de Janeiro",
+    "state": "RJ",
+    "email": "new@email.com"
+}
+```
+
+---
