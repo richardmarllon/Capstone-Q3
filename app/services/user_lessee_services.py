@@ -13,7 +13,6 @@ def post_user_lessee_by_data(data: dict):
     check_incorrect_keys(data, required_keys)
     check_missing_keys(data, required_keys)
 
-
     data["phone_number"] = format_phone_number(data["phone_number"])
     cpf_to_encrypt = format_cpf(data)
     cpf_encrypted = criptography_string(cpf_to_encrypt) 
@@ -22,7 +21,6 @@ def post_user_lessee_by_data(data: dict):
 
     lesse_user: UserLesseeModel = UserLesseeModel(**data)
     add_in_db(lesse_user)
-
 
     return lesse_user
 
@@ -65,7 +63,6 @@ def update_user_lessee_by_id(id: int, data: dict, current_user: dict):
     if data.get("phone_number"):
         data["phone_number"] = format_phone_number(data["phone_number"])
     
-    
     for key, value in data.items():
         setattr(user_to_update, key, value)
     
@@ -78,7 +75,6 @@ def login_user_lessee(data: dict):
     required_keys = ["cpf", "password"]
     check_incorrect_keys(data, required_keys)
     check_missing_keys(data, required_keys)
-
 
     cpf_to_encrypt = format_cpf(data)
     cpf_encrypted = criptography_string(cpf_to_encrypt)
