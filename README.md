@@ -14,20 +14,20 @@
 
 403 -> The user does not have access rights to the content so the server is refusing to respond.
 
-# Record Lesse
+# Record Lessee
 
-table to get the record of the lesse
+table to get the record of the lessee
 
 ## Schemas
 
-|    key     | type |       description        |
-| :--------: | :--: | :----------------------: |
-|     id     | int  |     id of the record     |
-| lessee_id  | int  |     id of the lesse      |
-|   car_id   | int  |      id of the car       |
-| avaliation | int  | car and lesse avaliation |
-|  comment   | str  | user experience comment  |
-|    date    | str  |       record date        |
+|    key     | type |        description        |
+| :--------: | :--: | :-----------------------: |
+|     id     | int  |     id of the record      |
+| lessee_id  | int  |     id of the lessee      |
+|   car_id   | int  |       id of the car       |
+| avaliation | int  | car and lessee avaliation |
+|  comment   | str  |  user experience comment  |
+|    date    | str  |        record date        |
 
 ## `Endpoints and methods:`
 
@@ -35,11 +35,11 @@ table to get the record of the lesse
 
 -> URL and method:
 
-> GET: `https://capstone-q3.herokuapp.com/rlesse/register_lesse/<id>`
+> GET: `https://capstone-q3.herokuapp.com/record/lessee/<id>`
 
 **Response example:**
 
-Request: `GET https://capstone-q3.herokuapp.com/rlesse/register_lesse/1`
+Request: `GET https://capstone-q3.herokuapp.com/record/lessee/1`
 
 ```JSON
 {
@@ -52,21 +52,21 @@ Request: `GET https://capstone-q3.herokuapp.com/rlesse/register_lesse/1`
 }
 ```
 
-## Update record lesse by id
+## Update record lessee by id
 
 -> URL
 
-> PATCH `https://capstone-q3.herokuapp.com/rlesse/register_lesse/<id>`
+> PATCH `https://capstone-q3.herokuapp.com/record/lessee/update/<int:user_id>`
 
 -> Example
 
-Request: `PATCH https://capstone-q3.herokuapp.com/rlesse/register_lesse/1`
+Request: `PATCH https://capstone-q3.herokuapp.com/record/lessee/update/1`
 
 **Body request example:**
 
 ```JSON
 {
-"comment": "adorable lesse"
+"comment": "adorable lessee"
 }
 ```
 
@@ -78,20 +78,20 @@ Request: `PATCH https://capstone-q3.herokuapp.com/rlesse/register_lesse/1`
 "lessee_id": 1,
 "car_id": 3,
 "avaliation": 5,
-"comment": "adorable lesse",
+"comment": "adorable lessee",
 "date": "2021/07/13"
 }
 ```
 
-## Delete record lesse by id
+## Delete record lessee by id
 
 -> URL
 
-> DEL `https://capstone-q3.herokuapp.com/rlesse/register_lesse/<id>`
+> DEL `https://capstone-q3.herokuapp.com/record/lessee/delete/<id>`
 
 -> Example
 
-Request: `DEL https://capstone-q3.herokuapp.com/rlesse/register_lesse/1`
+Request: `DEL https://capstone-q3.herokuapp.com/record/lessee/delete/1`
 
 **Response example:**
 
@@ -99,15 +99,15 @@ Request: `DEL https://capstone-q3.herokuapp.com/rlesse/register_lesse/1`
 " "
 ```
 
-## Create record lesse
+## Create record lessee
 
 -> URL
 
-> POST `https://capstone-q3.herokuapp.com/rlesse/register_lesse`
+> POST `https://capstone-q3.herokuapp.com/record/lessee/register`
 
 -> Example
 
-Request: `POST https://capstone-q3.herokuapp.com/rlesse/register_lesse`
+Request: `POST https://capstone-q3.herokuapp.com/record/lessee/register`
 
 **Body request example:**
 
