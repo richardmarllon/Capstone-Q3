@@ -1,3 +1,19 @@
+# HTTP status
+
+201 -> Request was successful and that a new resource was created.
+
+204 -> The request was successful and the user does not need to leave the current page
+
+200 -> This request was successful.
+
+401 -> User I don't have valid credentials to access the route
+
+400 -> Server is unable to process the request due to a user error, either by syntax or any other reason
+
+404 -> The server cannot find the requested resource.
+
+403 -> The user does not have access rights to the content so the server is refusing to respond.
+
 # Record Lesse
 
 table to get the record of the lesse
