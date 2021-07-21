@@ -10,7 +10,7 @@ def post_car_by_data(data: dict, current_user : dict):
     required_keys: list = ["year", "license_plate", "model", "trunk_volume", "insurer", "insurer_number", "review_date", "withdrawal_place", "city", "state", "user_id"]
     check_incorrect_keys(data, required_keys)
     license_plate_to_format = format_license_plate(data)
-    insurer_number_to_format = format_phone_number(data)
+    insurer_number_to_format = format_phone_number(data["insurer_number"])
     
     data["insurer_number"] = insurer_number_to_format
     data["license_plate"] = license_plate_to_format
@@ -34,7 +34,7 @@ def update_car_by_id(car_id: int, data: dict, current_user: dict):
         car_to_update.license_plate = license_plate_to_format
         
     if data.get("insurer_number"):
-        insurer_number_to_format = format_phone_number(data)
+        insurer_number_to_format = format_phone_number(data["insurer_number"])
         car_to_update.insurer_number = insurer_number_to_format
 
     for key, value in data.items():
