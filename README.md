@@ -130,18 +130,18 @@ Table to get the user lessee
 
 ## Schemas
 
-|    key    | type |    description    |
-| :-------: | :--: | :---------------: |
-|    id     | int  |  id of the user   |
-|   name    | str  |     user name     |
-| last_name | str  | user's last name  |
-| phone_number| str | user's phone number |
-|   email   | str  |   user's email    |
-|   city    | str  |    user's city    |
-|   state   | str  |   user's state    |
-|    cnh    | str  | user's CNH number |
-|    cpf    | str  | user's CPF number |
-| password  | str  |  user's password  |
+|     key      | type |     description     |
+| :----------: | :--: | :-----------------: |
+|      id      | int  |   id of the user    |
+|     name     | str  |      user name      |
+|  last_name   | str  |  user's last name   |
+| phone_number | str  | user's phone number |
+|    email     | str  |    user's email     |
+|     city     | str  |     user's city     |
+|    state     | str  |    user's state     |
+|     cnh      | str  |  user's CNH number  |
+|     cpf      | str  |  user's CPF number  |
+|   password   | str  |   user's password   |
 
 ## `Endpoints and methods:`
 
@@ -322,7 +322,7 @@ Table to get the car
 | :--------------: | :--: | :-------------------------: |
 |        id        | int  |        id of the car        |
 |       year       | int  |       year of the car       |
-|  license_plate   | str  |     license_plate plate     |
+|  license_plate   | str  |      car license_plate      |
 |      model       | str  |          car model          |
 |   trunk_volume   | int  |     car trunk capacity      |
 |     insurer      | str  | car insurance company name  |
@@ -366,7 +366,7 @@ Authorization:
 ```JSON
 {
 	"year": 2019,
-	"license_plate": "abc123",
+	"license_plate": "abc-1234",
 	"model": "Prisma",
 	"trunk_volume": 54,
 	"insurer": "Teste Seguros",
@@ -391,7 +391,8 @@ Response: `status 201 - CREATED`
     "review_date": "Thu, 12 Jul 2001 00:00:00 GMT",
     "withdrawal_place": "SHOPPING CURITIBA",
     "city": "CURITIBA",
-    "state": "PR"
+    "state": "PR",
+    "license_plate": "ABC1234"
 }
 ```
 
@@ -430,7 +431,8 @@ Response: `status 200 - OK`
     "review_date": "Mon, 12 Jul 2021 00:00:00 GMT",
     "withdrawal_place": "SHOPPING PALLADIUM",
     "city": "CURITIBA",
-    "state": "PR"
+    "state": "PR",
+    "license_plate": "ABC1234"
 }
 ```
 
@@ -454,7 +456,8 @@ Response: ` status 204 - NO CONTENT`
 
 **All GET Routes don't need permission.**
 
-In response header are the information about total cars quantity, pagination, next_page that access the next page and prev_page that access the previous page
+In response header are the information about total cars quantity, pagination, next_page that access the next page and prev_page that access the previous page.
+The number pages in default is 15 per page.
 
 Response header:
 
@@ -472,7 +475,7 @@ Response header:
 
 -> URL and method to get all cars:
 
-> GET:` https://capstone-q3.herokuapp.com/car/cars`
+> GET:` https://capstone-q3.herokuapp.com/car/`
 
 Response: `status 200 - OK`
 
@@ -489,7 +492,8 @@ Response: `status 200 - OK`
        "review_date": "Thu, 12 Jul 2001 00:00:00     GMT",
        "withdrawal_place": "SHOPPING CURITIBA",
        "city": "CURITIBA",
-       "state": "PR"
+       "state": "PR",
+       "license_plate": "ABC1234"
     },
   ]
 }
@@ -497,11 +501,11 @@ Response: `status 200 - OK`
 
 -> URL and method to get cars with parameters:
 
-> GET:` https://capstone-q3.herokuapp.com/car/cars?<parameters=values>`
+> GET:` https://capstone-q3.herokuapp.com/car?<parameters=values>`
 
 **Request example:**
 
-GET without a body: `https://capstone-q3.herokuapp.com/car/cars?model=prisma&withdrawal_place=curitiba`
+GET without a body: `https://capstone-q3.herokuapp.com/car?model=prisma&withdrawal_place=curitiba`
 
 Response: `status 200 - OK`
 
@@ -517,7 +521,8 @@ Response: `status 200 - OK`
       "review_date": "Thu, 12 Jul 2001 00:00:00 GMT",
       "withdrawal_place": "SHOPPING CURITIBA",
       "city": "CURITIBA",
-      "state": "PR"
+      "state": "PR",
+      "license_plate": "ABC1234"
     }
   ]
 ```
@@ -546,7 +551,8 @@ Response: `status 200 - OK`
     "review_date": "Thu, 12 Jul 2001 00:00:00 GMT",
     "withdrawal_place": "SHOPPING CURITIBA",
     "city": "CURITIBA",
-    "state": "PR"
+    "state": "PR",
+    "license_plate": "ABC1234"
   },
   "date_ocupied": [],
   "avaliations": []
