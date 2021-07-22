@@ -124,6 +124,181 @@ table to get the data of user locator
 
 ## Schemas
 
+|    key    | type |     description     |
+| :-------: | :--: | :-----------------: |
+|    id     | int  |   id of the user    |
+|   name    | str  |      user name      |
+| last_name | str  |  user's last name   |
+|   email   | str  |    user's email     |
+|  adreess  | str  | pick-up car adreess |
+|    cpf    | str  |  user's CPF number  |
+| password  | str  |   user's password   |
+|    cep    | str  |   pick-up car cep   |
+
+## `Endpoints and methods:`
+
+## Register
+
+-> URL and method:
+
+> POST:` https://capstone-q3.herokuapp.com/locator/register`
+
+**Body request example:**
+
+```JSON
+{
+	"email": "email@email.com",
+	"password": "123aA",
+	"name": "user",
+	"last_name": "test",
+	"cpf": "111.222.333-44",
+	"address": "shooping paralela em frente ao meu delicioso freezer de salgados",
+	"cep": "48004-124"
+}
+```
+
+Response: `status 201 - CREATED`
+
+```JSON
+{
+    "id": 1,
+    "name": "user",
+    "last_name": "test",
+    "email": "email@email.com",
+    "address": "shooping paralela em frente ao meu delicioso freezer de salgados",
+	"cep": "48004-124"
+}
+```
+
+## Login
+
+-> URL and method:
+
+> POST:` https://capstone-q3.herokuapp.com/locator/login`
+
+**Body request example:**
+
+```JSON
+{
+	"cpf": "111.222.333-44",
+	"password": "123aA"
+
+}
+```
+
+Response: `status 200 - OK`
+
+```JSON
+{
+    "user": {
+        "id": 1,
+        "name": "user",
+        "last_name": "test",
+        "email": "email@email.com",
+         "address": "shooping paralela em frente ao meu delicioso freezer de salgados",
+	    "cep": "48004-124"
+    },
+    "access_token": "eyJUzI1NiJ9.eyJmcmVzaCI6ZmFsc2Us2VyINnOSwiZXhwIjoxNjI2NTkxMTE5fQ.AOpSzar1EoWt2Uyp0jZM"
+}
+```
+
+## Get user
+
+-> URL and method:
+
+> GET:` https://capstone-q3.herokuapp.com/locator/user/<id>`
+
+**Request example:**
+
+GET without a body: `https://capstone-q3.herokuapp.com/locator/user/1`
+
+Response: `status 200 - OK`
+
+```JSON
+{
+    "user": {
+        "id": 1,
+        "name": "user",
+        "last_name": "test",
+        "email": "email@email.com",
+        "address": "shooping paralela em frente ao meu delicioso freezer de salgados",
+	    "cep": "48004-124"
+    },
+    "avaliations_received": [],
+    "avaliations_give": []
+}
+```
+
+## Update user
+
+**You need to own the resource and be logged to update.**
+
+You can change any key from your own user.
+
+URL and method:
+
+> PATCH: `https://capstone-q3.herokuapp.com/locator/update/<id>`
+
+**Request example:**
+
+PATCH: `https://capstone-q3.herokuapp.com/locator/update/1`
+
+Authorization:
+
+```javascript
+{
+    headers: {
+        Authorization: "Bearer access_token";
+    }
+}
+```
+
+Body:
+
+```JSON
+{
+	"email": "new@email.com",
+	"password": "anotherPass"
+}
+```
+
+Response: `status 200 - OK`
+
+```JSON
+{
+    "id": 1,
+    "name": "user",
+    "last_name": "test",
+    "address": "shooping paralela em frente ao meu delicioso freezer de salgados",
+	"cep": "48004-124",
+    "email": "new@email.com"
+}
+```
+
+## Delete user
+
+**You need to own the resource and be logged to delete.**
+
+-> URL and method:
+
+> DELETE:` https://capstone-q3.herokuapp.com/locator/update/<id>`
+
+**Request example:**
+
+DELETE without a body: `https://capstone-q3.herokuapp.com/locator/update/1`
+
+Authorization:
+
+```javascript
+{
+    headers: {
+        Authorization: "Bearer access_token";
+    }
+}
+```
+
+Response: ` status 204 - NO CONTENT`
+
 # User Lesse
 
 Table to get the user lessee
@@ -545,4 +720,342 @@ Response: `status 200 - OK`
   "date_ocupied": [],
   "avaliations": []
 }
+```
+
+# Date Ocupied
+
+Table to get the Date Ocupied
+
+## Schemas
+
+|         key         | type |        description         |
+| :-----------------: | :--: | :------------------------: |
+|         id          | int  |     id of date ocupied     |
+|       car_id        | int  |       id of the car        |
+| unavaliable_date_id | int  | id of the unavaliable date |
+
+## `Endpoints and methods:`
+
+---
+
+## Every route needs authorization
+
+Authorization:
+
+```javascript
+{
+    headers: {
+        Authorization: "Bearer access_token";
+    }
+}
+```
+
+---
+
+## Routes that need permission
+
+## Register
+
+**You need be the lessee user and be logged in to register**
+
+-> URL and method:
+
+> POST:` https://capstone-q3.herokuapp.com/date-ocupied/register`
+
+**Body request example:**
+
+```JSON
+{
+	"car_id": 1,
+	"unavaliable_date_id": 2
+}
+```
+
+Response: `status 201 - CREATED`
+
+```JSON
+{
+    "id": 1,
+    "car_id": 1,
+	"unavaliable_date_id": 2
+
+}
+```
+
+## Delete Date Ocupied
+
+**You need to own the resource to delete.**
+
+-> URL and method:
+
+> DELETE:` https://capstone-q3.herokuapp.com/date-ocupied/delete/<id>`
+
+**Request example:**
+
+DELETE without a body: `https://capstone-q3.herokuapp.com/date-ocupied/delete/1`
+
+Response: ` status 204 - NO CONTENT`
+
+---
+
+## Routes don't that need permission
+
+**All GET Routes don't need permission.**
+
+In response header are the information about total dates quantity, pagination, next_page that access the next page and prev_page that access the previous page
+
+Response header:
+
+```JSON
+{
+    "info": {
+    "count": 11,
+    "pages": 1,
+    "next_page": null,
+    "prev_page": null
+  },
+```
+
+## Get dates ocupieds
+
+-> URL and method to get all dates:
+
+> GET:` https://capstone-q3.herokuapp.com/date-ocupied/`
+
+Response: `status 200 - OK`
+
+```JSON
+{
+  "info": {
+    "count": 1,
+    "pages": 1,
+    "next_page": null,
+    "prev_page": null
+  },
+  "result": [
+    {
+      "id": 4,
+      "car_id": 1,
+      "unavaliable_date": {
+        "id": 1,
+        "date": "Fri, 12 Dec 2014 00:00:00 GMT"
+      }
+    }
+  ]
+}
+}
+```
+
+-> URL and method to get dates with parameters:
+
+> GET:` https://capstone-q3.herokuapp.com/date-ocupied/?<parameters=values>`
+
+**Request example:**
+
+GET without a body: `https://capstone-q3.herokuapp.com/date-ocupied/?car_id=1`
+
+Response: `status 200 - OK`
+
+```JSON
+  {
+  "info": {
+    "count": 3,
+    "pages": 1,
+    "next_page": null,
+    "prev_page": null
+  },
+  "result": [
+    {
+      "id": 4,
+      "car_id": 1,
+      "unavaliable_date": {
+        "id": 1,
+        "date": "Fri, 12 Dec 2014 00:00:00 GMT"
+      }
+    },
+    {
+      "id": 5,
+      "car_id": 1,
+      "unavaliable_date": {
+        "id": 1,
+        "date": "Fri, 12 Dec 2014 00:00:00 GMT"
+      }
+    },
+    {
+      "id": 6,
+      "car_id": 1,
+      "unavaliable_date": {
+        "id": 1,
+        "date": "Fri, 12 Dec 2014 00:00:00 GMT"
+      }
+    }
+  ]
+}
+```
+
+# Unavaliable Date
+
+Table to get the Unavaliable Date
+
+## Schemas
+
+| key  | type |    description     |
+| :--: | :--: | :----------------: |
+|  id  | int  | id of date ocupied |
+| date | str  |     atual date     |
+
+## `Endpoints and methods:`
+
+---
+
+## Every route needs authorization
+
+Authorization:
+
+```javascript
+{
+    headers: {
+        Authorization: "Bearer access_token";
+    }
+}
+```
+
+---
+
+## Routes that need permission
+
+## Register
+
+**You need be the lessee user and be logged in to register**
+
+-> URL and method:
+
+> POST:` https://capstone-q3.herokuapp.com/unavaliable-date/register`
+
+**Body request example:**
+
+```JSON
+{
+	"date": "12/12/2014"
+}
+```
+
+Response: `status 201 - CREATED`
+
+```JSON
+{
+  "id": 2,
+  "date": "Fri, 12 Dec 2014 00:00:00 GMT"
+}
+```
+
+## Delete Unavaliable Date
+
+**You need to own the resource to delete.**
+
+-> URL and method:
+
+> DELETE:` https://capstone-q3.herokuapp.com/unavaliable-date/delete/<id>`
+
+**Request example:**
+
+DELETE without a body: `https://capstone-q3.herokuapp.com/unavaliable-date/delete/1`
+
+Response: ` status 204 - NO CONTENT`
+
+---
+
+## Routes don't that need permission
+
+**All GET Routes don't need permission.**
+
+In response header are the information about total dates quantity, pagination, next_page that access the next page and prev_page that access the previous page
+
+Response header:
+
+```JSON
+{
+    "info": {
+    "count": 11,
+    "pages": 1,
+    "next_page": null,
+    "prev_page": null
+  },
+```
+
+## Get unavaliable dates
+
+-> URL and method to get all dates:
+
+> GET:` https://capstone-q3.herokuapp.com/unavaliable-date/`
+
+Response: `status 200 - OK`
+
+```JSON
+{
+  "info": {
+    "count": 2,
+    "pages": 1,
+    "next_page": null,
+    "prev_page": null
+  },
+  "result": [
+    {
+      "id": 1,
+      "date": "Fri, 12 Dec 2014 00:00:00 GMT"
+    },
+    {
+      "id": 2,
+      "date": "Mon, 12 Dec 2016 00:00:00 GMT"
+    }
+  ]
+}
+```
+
+-> URL and method to get unavaliable dates with parameters:
+
+> GET:` https://capstone-q3.herokuapp.com/car/cars?<parameters=values>`
+
+**Request example:**
+
+GET without a body: `http://127.0.0.1:5001/unavaliable-date/?date=12%2F12%2F2015`
+
+Response: `status 200 - OK`
+
+```JSON
+{
+  "info": {
+    "count": 1,
+    "pages": 1,
+    "next_page": null,
+    "prev_page": null
+  },
+  "result": [
+    {
+      "id": 2,
+      "date": "Mon, 12 Dec 2016 00:00:00 GMT"
+    }
+  ]
+}
+```
+
+## Get Unavaliable Date
+
+-> URL and method:
+
+> GET:` https://capstone-q3.herokuapp.com/locator/unavaliable-date/<id>`
+
+**Request example:**
+
+GET without a body: `https://capstone-q3.herokuapp.com/locator/unavaliable-date/1`
+
+Response: `status 200 - OK`
+
+```JSON
+
+{
+  "id": 1,
+  "date": "Fri, 12 Dec 2014 00:00:00 GMT"
+}
+
 ```

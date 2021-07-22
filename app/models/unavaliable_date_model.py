@@ -11,5 +11,5 @@ class UnavaliableDateModel(db.Model):
     date: str
     
     id = Column(Integer, primary_key=True)
-    date = Column(Date, nullable=False, unique=True)
+    date = Column(Date, nullable=False)
     

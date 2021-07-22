@@ -68,7 +68,6 @@ def del_car_delete(car_id: int) -> tuple:
 
         
 @bp.get("/")
-@jwt_required()
 def get_cars():
 
     try:
