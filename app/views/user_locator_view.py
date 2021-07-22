@@ -38,7 +38,7 @@ def post_user_locator_login():
         return {"access token": access_token}, HTTPStatus.OK
 
     except NotFound as e:
-        return e.message
+        return e.message, HTTPStatus.NOT_FOUND
         
 @bp.get("/user/<int:user_id>")
 @jwt_required()
@@ -51,9 +51,9 @@ def get_user_locator(user_id: int):
         return jsonify({"user": user,"user_cars": user.car}), HTTPStatus.OK
     
     except NotFound as e:
-        return e.message
+        return e.message, HTTPStatus.NOT_FOUND
     except NotPermission as e:
-        return e.message
+        return e.message, HTTPStatus.UNAUTHORIZED
     
     
 @bp.patch("/update/<int:user_id>")
@@ -69,9 +69,9 @@ def patch_user_locator_update(user_id: int):
         return jsonify(user_updated), HTTPStatus.OK
     
     except NotPermission as e:
-        return e.message
+        return e.message, HTTPStatus.UNAUTHORIZED
     except NotFound as e:
-        return e.message
+        return e.message, HTTPStatus.NOT_FOUND
 
 @bp.delete("/delete/<int:user_id>")
 @jwt_required()
@@ -87,8 +87,8 @@ def del_user_lessee_delete(user_id: int):
 
     
     except NotFound as e:
-        return e.message
+        return e.message, HTTPStatus.NOT_FOUND
     except NotPermission as e:
-        return e.message
+        return e.message, HTTPStatus.UNAUTHORIZED
        
 #^(..)/(..)/(....)$

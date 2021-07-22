@@ -53,6 +53,6 @@ def delete_date_ocupied(id: int):
         return "", HTTPStatus.OK
     
     except NotFound as e:
-        return e.message
+        return e.message, HTTPStatus.NOT_FOUND
     except NotPermission as e:
-        return e.message 
+        return e.message , HTTPStatus.UNAUTHORIZED

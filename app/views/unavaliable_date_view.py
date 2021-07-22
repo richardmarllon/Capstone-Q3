@@ -25,7 +25,7 @@ def post_unavaliable_date_register():
     except IncorrectKeysError as e:
         return e.message, HTTPStatus.BAD_REQUEST
     except MissingKeys as e:
-        return e.message
+        return e.message, HTTPStatus.BAD_REQUEST
     except IntegrityError as e:
         error = {"message": str(e.__dict__['orig']) }
         return error, HTTPStatus.BAD_REQUEST
@@ -38,7 +38,7 @@ def get_unavaliable_date(id: int):
         unavaliable_date = get_unavaliable_date_by_id(id)
         return jsonify(unavaliable_date), HTTPStatus.OK
     except NotFound as e:
-        return e.message
+        return e.message , HTTPStatus.NOT_FOUND
 
 @bp.delete("/<int:id>")
 @jwt_required()
@@ -49,7 +49,7 @@ def delete_unavaliable_date(id: int):
     
         return "", HTTPStatus.OK
     except NotFound as e:
-        return e.message
+        return e.message , HTTPStatus.NOT_FOUND
         
 
 @bp.get("/")
