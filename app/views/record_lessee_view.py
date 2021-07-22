@@ -9,9 +9,9 @@ from http import HTTPStatus
 from app.exc.incorrect_keys_error import IncorrectKeysError
 from app.services.record_lessee_services import post_record_lessee_by_data, search_record_lessee_by_id, delete_record_lessee_by_id, update_record_lessee_by_id
 
-bp = Blueprint("rec-lessee",__name__, url_prefix="/rlessee")
+bp = Blueprint("rec-lessee",__name__, url_prefix="/record/lesse")
 
-@bp.post("/register_lessee")
+@bp.post("/register")
 def post_record_lessee_register():
     data = request.get_json()
 
@@ -27,7 +27,7 @@ def post_record_lessee_register():
         return response, HTTPStatus.BAD_REQUEST
 
 
-@bp.patch("/register_lessee/<int:user_id>")
+@bp.patch("/update/<int:user_id>")
 @jwt_required()
 def patch_record_lessee_update(user_id: int):
     data = request.get_json()
@@ -39,7 +39,7 @@ def patch_record_lessee_update(user_id: int):
         return err.message, HTTPStatus.UNAUTHORIZED
 
 
-@bp.delete("/register_lessee/<int:user_id>")
+@bp.delete("/delete/<int:user_id>")
 @jwt_required()
 def del_record_lessee_delete(user_id: int):
 
@@ -50,7 +50,7 @@ def del_record_lessee_delete(user_id: int):
     
 
 
-@bp.get("/register_lessee/<int:id>")
+@bp.get("/<int:id>")
 def get_record_lessee(id: int):
     try:
         response = search_record_lessee_by_id(id)
