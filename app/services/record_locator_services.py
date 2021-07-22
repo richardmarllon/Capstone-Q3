@@ -33,19 +33,22 @@ def get_avaliation_locator(user_id:int):
 def update_record_locator(data:dict, record_id:int):
     record_locator_updt = RecordLocatorModel.query.get(record_id)
 
+    if not record_locator_updt:
+        raise NotFound
+    
     for key, value in data.items():
         setattr(record_locator_updt, key, value)
     
     add_in_db(record_locator_updt)
 
-    return record_locator_updt, HTTPStatus.OK
+    return record_locator_updt
 
 def delete_record_locator_by_id(id: int):
-    register_locator_to_delete = RecordLocatorModel.query.filter_by.get(id)
+    register_locator_to_delete = RecordLocatorModel.query.get(id)
 
     if not register_locator_to_delete:
-        return {"message": f'ID number {id} does not exists.'}, HTTPStatus.NOT_FOUND
+        raise NotFound
     
     delete_in_db(register_locator_to_delete)
     
-    return "", HTTPStatus.NO_CONTENT
+    return ""
