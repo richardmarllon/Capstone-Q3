@@ -134,6 +134,126 @@ Request: `POST https://capstone-q3.herokuapp.com/record/lessee/register`
 }
 ```
 
+# Record Locator
+
+table to get the record of the lessee
+
+## Schemas
+
+|       key       | type |        description         |
+| :-------------: | :--: | :------------------------: |
+|       id        | int  |      id of the record      |
+| user_locator_id | int  |     id of the locator      |
+| user_lessee_id  | int  |      id of the lessee      |
+|   avaliation    | int  |     locator avaliation     |
+|     comment     | str  | locator experience comment |
+|      date       | str  |        record date         |
+
+## `Endpoints and methods:`
+
+## Get record locator by id
+
+-> URL and method:
+
+> GET: `https://capstone-q3.herokuapp.com/record/locator/<id>`
+
+**Response example:**
+
+Request: `GET https://capstone-q3.herokuapp.com/record/locator/1`
+
+```JSON
+{
+"id": 1,
+"user_locator_id": 3,
+"user_lessee_id" : 2,
+"avaliation": 5,
+"comment": "great client",
+"date": "2021/02/14"
+}
+```
+
+## Update record locator by id
+
+-> URL
+
+> PATCH `https://capstone-q3.herokuapp.com/record/locator/update/<int:user_id>`
+
+-> Example
+
+Request: `PATCH https://capstone-q3.herokuapp.com/record/locator/update/1`
+
+**Body request example:**
+
+```JSON
+{
+"comment": "adorable cliente"
+}
+```
+
+**Response example:**
+
+```JSON
+{
+"id": 1,
+"user_locator_id": 3,
+"user_lessee_id" : 2,
+"avaliation": 5,
+"comment": "adorable cliente",
+"date": "2021/02/14"
+}
+```
+
+## Delete record lessee by id
+
+-> URL
+
+> DEL `https://capstone-q3.herokuapp.com/record/locator/delete/<id>`
+
+-> Example
+
+Request: `DEL https://capstone-q3.herokuapp.com/record/locator/delete/1`
+
+**Response example:**
+
+```JSON
+" "
+```
+
+## Create record lessee
+
+-> URL
+
+> POST `https://capstone-q3.herokuapp.com/record/locator/register`
+
+-> Example
+
+Request: `POST https://capstone-q3.herokuapp.com/record/locator/register`
+
+**Body request example:**
+
+```JSON
+{
+"user_locator_id" : 1,
+"user_lessee_id" : 1,
+"date" : "2021/08/05",
+"comment" : "don't suport me",
+"avaliation" : 2
+}
+```
+
+**Response example:**
+
+```JSON
+{
+"id": 2,
+"user_locator_id" : 1,
+"user_lessee_id" : 1,
+"date" : "2021/08/05",
+"comment" : "don't suport me",
+"avaliation" : 2
+}
+```
+
 # User locator
 
 table to get the data of user locator
