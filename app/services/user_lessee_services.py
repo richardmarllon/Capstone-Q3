@@ -3,17 +3,17 @@ from sqlalchemy.sql.elements import Null
 from app.exc.not_found_error import NotFound
 from app.exc.bad_credentials_error import BadCredentials
 from app.models.user_lessee_model import UserLesseeModel
-from app.services.helpers import add_in_db, check_incorrect_keys, check_missing_keys, check_user, format_cpf, criptography_string, delete_in_db, commit_current_session
+from app.services.helpers import add_in_db, check_incorrect_keys, check_missing_keys, check_user, format_cpf, criptography_string, delete_in_db, commit_current_session, format_phone_number
 from werkzeug.security import generate_password_hash
 from flask_jwt_extended import create_access_token
 import ipdb
 
 def post_user_lessee_by_data(data: dict):
-    required_keys: list = ["name", "last_name", "email", "city", "state", "cnh", "cpf", "password"]
+    required_keys: list = ["name", "last_name", "email", "city", "state", "cnh", "cpf", "password", "phone_number"]
     check_incorrect_keys(data, required_keys)
     check_missing_keys(data, required_keys)
 
-
+    data["phone_number"] = format_phone_number(data["phone_number"])
     cpf_to_encrypt = format_cpf(data)
     cpf_encrypted = criptography_string(cpf_to_encrypt) 
     data.pop("cpf")
@@ -21,7 +21,6 @@ def post_user_lessee_by_data(data: dict):
 
     lesse_user: UserLesseeModel = UserLesseeModel(**data)
     add_in_db(lesse_user)
-
 
     return lesse_user
 
@@ -61,6 +60,8 @@ def update_user_lessee_by_id(id: int, data: dict, current_user: dict):
         data.pop("cpf")
         data["cpf_encrypt"] = cpf_encrypted
     
+    if data.get("phone_number"):
+        data["phone_number"] = format_phone_number(data["phone_number"])
     
     for key, value in data.items():
         setattr(user_to_update, key, value)
@@ -74,7 +75,6 @@ def login_user_lessee(data: dict):
     required_keys = ["cpf", "password"]
     check_incorrect_keys(data, required_keys)
     check_missing_keys(data, required_keys)
-
 
     cpf_to_encrypt = format_cpf(data)
     cpf_encrypted = criptography_string(cpf_to_encrypt)
