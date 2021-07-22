@@ -9,7 +9,7 @@ from app.services.record_locator_services import to_asses_locator, get_avaliatio
 
 bp = Blueprint("record-locator", __name__, url_prefix="/record")
 
-@bp.post("/locator/assess")
+@bp.post("/locator/register")
 @jwt_required()
 def send_note_record_locator():
     try:
