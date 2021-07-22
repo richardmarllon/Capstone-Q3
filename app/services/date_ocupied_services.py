@@ -42,8 +42,6 @@ def delete_date_ocupied_by_id(id, token):
     
     if not date_to_delete:
         raise NotFound
-    if date_to_delete.id != token.get("user_id"):
-        raise NotPermission
     
     delete_in_db(date_to_delete)
     

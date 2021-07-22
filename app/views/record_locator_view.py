@@ -67,3 +67,5 @@ def del_record_lessee_delete(user_id: int):
         return delete_record_locator_by_id(user_id)
     except NotPermission as err:
         return err.message, HTTPStatus.UNAUTHORIZED
+    except NotFound as err:
+        return err.message, HTTPStatus.NOT_FOUND

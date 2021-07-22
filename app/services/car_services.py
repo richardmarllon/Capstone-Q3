@@ -59,6 +59,10 @@ def delete_car_by_id(id, current_user):
 def get_car_by_filters(**data):
     data = transform_to_uppercase(data)
 
+    cars_list = []
+    date_ocupied = []
+    avaliations = []
+    
     year, model, trunk_volume, withdrawal_place, city, state, page, per_page = format_query_car(data)
    
     cars = CarModel.query.filter(
@@ -70,8 +74,11 @@ def get_car_by_filters(**data):
         CarModel.state.like(state)).paginate(int(page), int(per_page),error_out=False)
 
     next_url, prev_url = format_url_car(cars.has_next, cars.has_prev, cars.next_num, cars.prev_num, per_page, data)
-
-    return  {"info": {"count": cars.total, "pages": cars.pages, "next_page": next_url, "prev_page": prev_url}, "result": cars.items }
+    
+    for item in cars.items:
+        cars_list.append({"car": item, "date_ocupied": item.date_ocupied, "avaliations": item.record_lessee})
+    print(cars_list)
+    return  {"info": {"count": cars.total, "pages": cars.pages, "next_page": next_url, "prev_page": prev_url}, "result": cars_list }
     
 
 def get_car_by_id(id):
