@@ -3,9 +3,10 @@ from flask_jwt_extended.view_decorators import jwt_required
 from app.exc.not_found_error import NotFound
 from app.exc.incorrect_keys_error import IncorrectKeysError
 from app.exc.missing_keys_error import MissingKeys
+from app.exc.not_permission import NotPermission
 from flask import Blueprint, jsonify, request, json
 from http import HTTPStatus
-from app.services.record_locator_services import to_asses_locator, get_avaliation_locator, update_record_locator
+from app.services.record_locator_services import to_asses_locator, get_avaliation_locator, update_record_locator, delete_record_locator_by_id
 
 bp = Blueprint("record-locator", __name__, url_prefix="/record")
 
@@ -51,3 +52,13 @@ def update_avaliation(avaliation_id):
         return jsonify(record_locator), HTTPStatus.OK
     except NotFound as err:
         return err.message, HTTPStatus.NOT_FOUND
+
+
+@bp.delete("/locator/delete/<int:user_id>")
+@jwt_required()
+def del_record_lessee_delete(user_id: int):
+
+    try:
+        return delete_record_locator_by_id(user_id)
+    except NotPermission as err:
+        return err.message, HTTPStatus.UNAUTHORIZED

@@ -1,7 +1,7 @@
 from http import HTTPStatus
 from app.models.record_locator_model import RecordLocatorModel
 from app.models.user_locator_model import UserLocatorModel
-from app.services.helpers import check_incorrect_keys, check_missing_keys, add_in_db
+from app.services.helpers import check_incorrect_keys, check_missing_keys, add_in_db, delete_in_db
 from http import HTTPStatus
 
 
@@ -35,3 +35,13 @@ def update_record_locator(data:dict, record_id:int):
     add_in_db(record_locator_updt)
 
     return record_locator_updt, HTTPStatus.OK
+
+def delete_record_locator_by_id(id: int):
+    register_locator_to_delete = RecordLocatorModel.query.filter_by.get(id)
+
+    if not register_locator_to_delete:
+        return {"message": f'ID number {id} does not exists.'}, HTTPStatus.NOT_FOUND
+    
+    delete_in_db(register_locator_to_delete)
+    
+    return "", HTTPStatus.NO_CONTENT
