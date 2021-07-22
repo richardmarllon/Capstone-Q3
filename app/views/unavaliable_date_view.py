@@ -1,3 +1,5 @@
+from sqlalchemy import exc
+from app.exc.not_found_error import NotFound
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import get_jwt_identity, jwt_required
 
@@ -23,7 +25,7 @@ def post_unavaliable_date_register():
     except IncorrectKeysError as e:
         return e.message, HTTPStatus.BAD_REQUEST
     except MissingKeys as e:
-        return e.message
+        return e.message, HTTPStatus.BAD_REQUEST
     except IntegrityError as e:
         error = {"message": str(e.__dict__['orig']) }
         return error, HTTPStatus.BAD_REQUEST
@@ -32,22 +34,23 @@ def post_unavaliable_date_register():
 @jwt_required()
 def get_unavaliable_date(id: int):
     
-    unavaliable_date = get_unavaliable_date_by_id(id)
-    if not unavaliable_date:
-        return {"msg": "not found"}, HTTPStatus.NOT_FOUND
-    
-    return jsonify(unavaliable_date), HTTPStatus.OK
+    try:
+        unavaliable_date = get_unavaliable_date_by_id(id)
+        return jsonify(unavaliable_date), HTTPStatus.OK
+    except NotFound as e:
+        return e.message , HTTPStatus.NOT_FOUND
 
 @bp.delete("/<int:id>")
 @jwt_required()
 def delete_unavaliable_date(id: int):
     
-    deleted = delete_unavaliable_date_by_id(id)
+    try:
+        deleted = delete_unavaliable_date_by_id(id)
     
-    if not deleted:
-        return {"message": f'ID number {id} does not exists.'}, HTTPStatus.NOT_FOUND
-    return "", HTTPStatus.OK
-    return {"message": "You need to be admin to delete the source."}, HTTPStatus.FORBIDDEN
+        return "", HTTPStatus.OK
+    except NotFound as e:
+        return e.message , HTTPStatus.NOT_FOUND
+        
 
 @bp.get("/")
 @jwt_required()

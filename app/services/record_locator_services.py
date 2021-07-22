@@ -1,3 +1,5 @@
+from sqlalchemy.exc import IntegrityError
+from app.exc.not_found_error import NotFound
 from http import HTTPStatus
 from app.models.record_locator_model import RecordLocatorModel
 from app.models.user_locator_model import UserLocatorModel
@@ -6,23 +8,25 @@ from http import HTTPStatus
 
 
 def to_asses_locator(data:dict):
-
-    required_keys = ["comment", "user_locator_id", "user_lessee_id", "date", "avaliation"]
     
-    check_missing_keys(data, required_keys)
-    check_incorrect_keys(data, required_keys)
+        required_keys = ["user_locator_id", "user_lessee_id", "date"]
+        
+        check_missing_keys(data, required_keys)
+        check_incorrect_keys(data, required_keys)
 
-    assess_locator = RecordLocatorModel(**data)
-    add_in_db(assess_locator)
-    resp = assess_locator
+        assess_locator = RecordLocatorModel(**data)
+        add_in_db(assess_locator)
+        resp = assess_locator
 
-    return resp, HTTPStatus.CREATED
-
+        return resp
 
 
 def get_avaliation_locator(user_id:int):
     # name_locator = UserLocatorModel.query.get(user_id)
     user_locator = RecordLocatorModel.query.get(user_id)
+    
+    if not user_locator:
+        raise NotFound
 
     return user_locator
 

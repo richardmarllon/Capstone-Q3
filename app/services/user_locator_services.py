@@ -1,3 +1,5 @@
+from app.exc.not_permission import NotPermission
+from app.exc.not_found_error import NotFound
 from os import name
 from app.models.user_locator_model import UserLocatorModel
 from app.services.helpers import format_url_user_locator ,format_query_user_locator ,add_in_db, check_incorrect_keys, format_cpf, criptography_string, delete_in_db, decriptography_string
@@ -32,13 +34,19 @@ def get_user_locator_by_cpf(data):
     
    
     user = UserLocatorModel.query.filter_by(cpf_encrypt=cpf_to_search).first()
-
+    if not user:
+        raise NotFound
+    
     return user
 
-def get_user_locator_by_id(id):
+def get_user_locator_by_id(id, token):
     
     user = UserLocatorModel.query.get(id)
+    if not user:
+        raise NotFound
     
+    if token.get("user_id") != user.id:
+        raise NotPermission
     return user
 
 def get_users_locators_by_filters(**data):
@@ -58,8 +66,15 @@ def get_users_locators_by_filters(**data):
 
     return (users, next_url, prev_url, users.total, users.pages)
 
-def update_user_locator_by_id(id: int, data: dict):
+def update_user_locator_by_id(id: int, data: dict, token):
+    
     user_to_update = UserLocatorModel.query.get(id)
+
+    if not user_to_update:
+        raise NotFound
+
+    if token.get("user_id") != user_to_update.id:
+        raise NotPermission
 
     if data.get('password'):
         new_password = generate_password_hash(data.get('password'))
@@ -79,11 +94,14 @@ def update_user_locator_by_id(id: int, data: dict):
     
     return user_to_update
 
-def delete_user_locator_by_id(id):
+def delete_user_locator_by_id(id, token):
     user_to_delete = UserLocatorModel.query.get(id)
     
     if not user_to_delete:
-        return False
+        raise NotFound
+    if token.get("user_id") != user_to_delete.id:
+        raise NotPermission
+
     delete_in_db(user_to_delete)
     return True
     

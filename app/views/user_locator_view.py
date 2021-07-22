@@ -1,3 +1,5 @@
+from app.exc.not_permission import NotPermission
+from app.exc.not_found_error import NotFound
 from flask import Flask, Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required ,create_access_token, set_access_cookies, unset_jwt_cookies, get_jwt_identity
 
@@ -25,60 +27,68 @@ def post_user_locator_register():
 
 @bp.post("/login")
 def post_user_locator_login():
-    data = request.get_json()
-    user = get_user_locator_by_cpf(data)
+    try:
+        data = request.get_json()
+        user = get_user_locator_by_cpf(data)
 
-    if user:
         access_token = create_access_token(identity={"user_id": user.id, "user_name": user.name})
         response = jsonify({"msg": "login successful"})
         set_access_cookies(response, access_token)
 
         return {"access token": access_token}, HTTPStatus.OK
-    return {"msg": "not found"}, HTTPStatus.NOT_FOUND
 
-@bp.get("/users/<int:user_id>")
+    except NotFound as e:
+        return e.message, HTTPStatus.NOT_FOUND
+        
+@bp.get("/user/<int:user_id>")
 @jwt_required()
 def get_user_locator(user_id: int):
-    user = get_user_locator_by_id(user_id)
-    token = get_jwt_identity()
     
-    if not user:
-        return {"msg": "not found"}, HTTPStatus.NOT_FOUND
-    
-    if token.get("user_id") != user.id:
-        return {"msg": "unauthorized"}, HTTPStatus.UNAUTHORIZED
-    print(user.car)
-    return jsonify({"user": user,"user_cars": user.car}), HTTPStatus.OK
-    
-    
-@bp.get("/users/")
-@jwt_required()
-def get_users_locators():
-    
-    data = request.args
-    users, next_url, prev_url, total, pages = get_users_locators_by_filters(**data)
+    try:
+        token = get_jwt_identity()
+        user = get_user_locator_by_id(user_id, token)
 
-    return {"info": {"count": total, "pages": pages, "next_page": next_url, "prev_page": prev_url, }, "result": users.items}, HTTPStatus.OK
-
+        return jsonify({"user": user,"user_cars": user.car}), HTTPStatus.OK
+    
+    except NotFound as e:
+        return e.message, HTTPStatus.NOT_FOUND
+    except NotPermission as e:
+        return e.message, HTTPStatus.UNAUTHORIZED
+    
+    
 @bp.patch("/update/<int:user_id>")
 @jwt_required()
 def patch_user_locator_update(user_id: int):
-    current_user = get_jwt_identity()
-    data = request.get_json()
-    if user_id == current_user['user_id']:
-        user_updated = update_user_locator_by_id(user_id, data)
+    
+    try:
+        current_user = get_jwt_identity()
+        data = request.get_json()
+        
+        user_updated = update_user_locator_by_id(user_id, data, current_user)
+    
         return jsonify(user_updated), HTTPStatus.OK
-    return {"message": "You need to own the source to modify."}, HTTPStatus.FORBIDDEN
+    
+    except NotPermission as e:
+        return e.message, HTTPStatus.UNAUTHORIZED
+    except NotFound as e:
+        return e.message, HTTPStatus.NOT_FOUND
 
 @bp.delete("/delete/<int:user_id>")
 @jwt_required()
 def del_user_lessee_delete(user_id: int):
-    current_user = get_jwt_identity()
-    if user_id == current_user['user_id']:
-        deleted = delete_user_locator_by_id(user_id)
-        if not deleted:
-            return {"message": f'ID number {id} does not exists.'}, HTTPStatus.NOT_FOUND
+    
+    try:
+    
+        current_user = get_jwt_identity()
+
+        deleted = delete_user_locator_by_id(user_id, current_user)
+
         return "", HTTPStatus.OK
-    return {"message": "You need to own the source to modify."}, HTTPStatus.FORBIDDEN
+
+    
+    except NotFound as e:
+        return e.message, HTTPStatus.NOT_FOUND
+    except NotPermission as e:
+        return e.message, HTTPStatus.UNAUTHORIZED
        
 #^(..)/(..)/(....)$

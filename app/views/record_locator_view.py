@@ -1,5 +1,6 @@
 from flask_jwt_extended.utils import get_jwt_identity
 from flask_jwt_extended.view_decorators import jwt_required
+from sqlalchemy.exc import IntegrityError
 from app.exc.not_found_error import NotFound
 from app.exc.incorrect_keys_error import IncorrectKeysError
 from app.exc.missing_keys_error import MissingKeys
@@ -18,7 +19,7 @@ def send_note_record_locator():
 
         resp = to_asses_locator(data)
 
-        return jsonify(resp)
+        return jsonify(resp), HTTPStatus.CREATED
 
     except MissingKeys as error:
         return error.message, HTTPStatus.BAD_REQUEST
@@ -28,14 +29,18 @@ def send_note_record_locator():
 
     except PermissionError as error:
         return error, HTTPStatus.UNAUTHORIZED
+    
+    except IntegrityError as e:
+        error = {"message": str(e.__dict__['orig']) }
+        return error, HTTPStatus.BAD_REQUEST
+
 
 @bp.get("/locator/<int:user_id>")
 @jwt_required()
 def avaliations_locator(user_id: int):
-    
-    user_locator = get_avaliation_locator(user_id)
-
     try:
+        user_locator = get_avaliation_locator(user_id)
+
         return jsonify(user_locator), HTTPStatus.OK
 
     except NotFound as err:
