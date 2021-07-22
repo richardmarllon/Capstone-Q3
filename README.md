@@ -1,17 +1,33 @@
-# Record Lesse
+# HTTP status
 
-table to get the record of the lesse
+201 -> Request was successful and that a new resource was created.
+
+204 -> The request was successful and the user does not need to leave the current page
+
+200 -> This request was successful.
+
+401 -> User I don't have valid credentials to access the route
+
+400 -> Server is unable to process the request due to a user error, either by syntax or any other reason
+
+404 -> The server cannot find the requested resource.
+
+403 -> The user does not have access rights to the content so the server is refusing to respond.
+
+# Record Lessee
+
+table to get the record of the lessee
 
 ## Schemas
 
-|    key     | type |       description        |
-| :--------: | :--: | :----------------------: |
-|     id     | int  |     id of the record     |
-| lessee_id  | int  |     id of the lesse      |
-|   car_id   | int  |      id of the car       |
-| avaliation | int  | car and lesse avaliation |
-|  comment   | str  | user experience comment  |
-|    date    | str  |       record date        |
+|    key     | type |        description        |
+| :--------: | :--: | :-----------------------: |
+|     id     | int  |     id of the record      |
+| lessee_id  | int  |     id of the lessee      |
+|   car_id   | int  |       id of the car       |
+| avaliation | int  | car and lessee avaliation |
+|  comment   | str  |  user experience comment  |
+|    date    | str  |        record date        |
 
 ## `Endpoints and methods:`
 
@@ -19,11 +35,11 @@ table to get the record of the lesse
 
 -> URL and method:
 
-> GET: `https://capstone-q3.herokuapp.com/rlesse/register_lesse/<id>`
+> GET: `https://capstone-q3.herokuapp.com/record/lessee/<id>`
 
 **Response example:**
 
-Request: `GET https://capstone-q3.herokuapp.com/rlesse/register_lesse/1`
+Request: `GET https://capstone-q3.herokuapp.com/record/lessee/1`
 
 ```JSON
 {
@@ -36,21 +52,21 @@ Request: `GET https://capstone-q3.herokuapp.com/rlesse/register_lesse/1`
 }
 ```
 
-## Update record lesse by id
+## Update record lessee by id
 
 -> URL
 
-> PATCH `https://capstone-q3.herokuapp.com/rlesse/register_lesse/<id>`
+> PATCH `https://capstone-q3.herokuapp.com/record/lessee/update/<int:user_id>`
 
 -> Example
 
-Request: `PATCH https://capstone-q3.herokuapp.com/rlesse/register_lesse/1`
+Request: `PATCH https://capstone-q3.herokuapp.com/record/lessee/update/1`
 
 **Body request example:**
 
 ```JSON
 {
-"comment": "adorable lesse"
+"comment": "adorable lessee"
 }
 ```
 
@@ -62,20 +78,20 @@ Request: `PATCH https://capstone-q3.herokuapp.com/rlesse/register_lesse/1`
 "lessee_id": 1,
 "car_id": 3,
 "avaliation": 5,
-"comment": "adorable lesse",
+"comment": "adorable lessee",
 "date": "2021/07/13"
 }
 ```
 
-## Delete record lesse by id
+## Delete record lessee by id
 
 -> URL
 
-> DEL `https://capstone-q3.herokuapp.com/rlesse/register_lesse/<id>`
+> DEL `https://capstone-q3.herokuapp.com/record/lessee/delete/<id>`
 
 -> Example
 
-Request: `DEL https://capstone-q3.herokuapp.com/rlesse/register_lesse/1`
+Request: `DEL https://capstone-q3.herokuapp.com/record/lessee/delete/1`
 
 **Response example:**
 
@@ -83,15 +99,15 @@ Request: `DEL https://capstone-q3.herokuapp.com/rlesse/register_lesse/1`
 " "
 ```
 
-## Create record lesse
+## Create record lessee
 
 -> URL
 
-> POST `https://capstone-q3.herokuapp.com/rlesse/register_lesse`
+> POST `https://capstone-q3.herokuapp.com/record/lessee/register`
 
 -> Example
 
-Request: `POST https://capstone-q3.herokuapp.com/rlesse/register_lesse`
+Request: `POST https://capstone-q3.herokuapp.com/record/lessee/register`
 
 **Body request example:**
 
@@ -305,17 +321,18 @@ Table to get the user lessee
 
 ## Schemas
 
-|    key    | type |    description    |
-| :-------: | :--: | :---------------: |
-|    id     | int  |  id of the user   |
-|   name    | str  |     user name     |
-| last_name | str  | user's last name  |
-|   email   | str  |   user's email    |
-|   city    | str  |    user's city    |
-|   state   | str  |   user's state    |
-|    cnh    | str  | user's CNH number |
-|    cpf    | str  | user's CPF number |
-| password  | str  |  user's password  |
+|     key      | type |     description     |
+| :----------: | :--: | :-----------------: |
+|      id      | int  |   id of the user    |
+|     name     | str  |      user name      |
+|  last_name   | str  |  user's last name   |
+| phone_number | str  | user's phone number |
+|    email     | str  |    user's email     |
+|     city     | str  |     user's city     |
+|    state     | str  |    user's state     |
+|     cnh      | str  |  user's CNH number  |
+|     cpf      | str  |  user's CPF number  |
+|   password   | str  |   user's password   |
 
 ## `Endpoints and methods:`
 
@@ -333,6 +350,7 @@ Table to get the user lessee
 	"password": "123aA",
 	"name": "user",
 	"last_name": "test",
+    "phone_number": "(44)99988-5544",
 	"cpf": "111.222.333-44",
 	"city": "Rio de Janeiro",
 	"state": "RJ",
@@ -349,6 +367,7 @@ Response: `status 201 - CREATED`
     "last_name": "test",
     "city": "Rio de Janeiro",
     "state": "RJ",
+    "phone_number": "44999885544",
     "email": "email@email.com"
 }
 ```
@@ -379,7 +398,8 @@ Response: `status 200 - OK`
         "last_name": "test",
         "city": "Rio de Janeiro",
         "state": "RJ",
-        "email": "email@email.com"
+        "email": "email@email.com",
+        "phone_number": "44999885544"
     },
     "access_token": "eyJUzI1NiJ9.eyJmcmVzaCI6ZmFsc2Us2VyINnOSwiZXhwIjoxNjI2NTkxMTE5fQ.AOpSzar1EoWt2Uyp0jZM"
 }
@@ -405,6 +425,7 @@ Response: `status 200 - OK`
         "last_name": "test",
         "city": "Rio de Janeiro",
         "state": "RJ",
+        "phone_number": "44999885544",
         "email": "email@email.com"
     },
     "avaliations_received": [],
@@ -453,6 +474,7 @@ Response: `status 200 - OK`
     "last_name": "test",
     "city": "Rio de Janeiro",
     "state": "RJ",
+    "phone_number": "44999885544",
     "email": "new@email.com"
 }
 ```
@@ -491,7 +513,7 @@ Table to get the car
 | :--------------: | :--: | :-------------------------: |
 |        id        | int  |        id of the car        |
 |       year       | int  |       year of the car       |
-|  license_plate   | str  |     license_plate plate     |
+|  license_plate   | str  |      car license_plate      |
 |      model       | str  |          car model          |
 |   trunk_volume   | int  |     car trunk capacity      |
 |     insurer      | str  | car insurance company name  |
@@ -535,7 +557,7 @@ Authorization:
 ```JSON
 {
 	"year": 2019,
-	"license_plate": "abc123",
+	"license_plate": "abc-1234",
 	"model": "Prisma",
 	"trunk_volume": 54,
 	"insurer": "Teste Seguros",
@@ -560,7 +582,8 @@ Response: `status 201 - CREATED`
     "review_date": "Thu, 12 Jul 2001 00:00:00 GMT",
     "withdrawal_place": "SHOPPING CURITIBA",
     "city": "CURITIBA",
-    "state": "PR"
+    "state": "PR",
+    "license_plate": "ABC1234"
 }
 ```
 
@@ -599,7 +622,8 @@ Response: `status 200 - OK`
     "review_date": "Mon, 12 Jul 2021 00:00:00 GMT",
     "withdrawal_place": "SHOPPING PALLADIUM",
     "city": "CURITIBA",
-    "state": "PR"
+    "state": "PR",
+    "license_plate": "ABC1234"
 }
 ```
 
@@ -623,7 +647,8 @@ Response: ` status 204 - NO CONTENT`
 
 **All GET Routes don't need permission.**
 
-In response header are the information about total cars quantity, pagination, next_page that access the next page and prev_page that access the previous page
+In response header are the information about total cars quantity, pagination, next_page that access the next page and prev_page that access the previous page.
+The number pages in default is 15 per page.
 
 Response header:
 
@@ -641,7 +666,7 @@ Response header:
 
 -> URL and method to get all cars:
 
-> GET:` https://capstone-q3.herokuapp.com/car/cars`
+> GET:` https://capstone-q3.herokuapp.com/car/`
 
 Response: `status 200 - OK`
 
@@ -658,7 +683,8 @@ Response: `status 200 - OK`
        "review_date": "Thu, 12 Jul 2001 00:00:00     GMT",
        "withdrawal_place": "SHOPPING CURITIBA",
        "city": "CURITIBA",
-       "state": "PR"
+       "state": "PR",
+       "license_plate": "ABC1234"
     },
   ]
 }
@@ -666,11 +692,11 @@ Response: `status 200 - OK`
 
 -> URL and method to get cars with parameters:
 
-> GET:` https://capstone-q3.herokuapp.com/car/cars?<parameters=values>`
+> GET:` https://capstone-q3.herokuapp.com/car?<parameters=values>`
 
 **Request example:**
 
-GET without a body: `https://capstone-q3.herokuapp.com/car/cars?model=prisma&withdrawal_place=curitiba`
+GET without a body: `https://capstone-q3.herokuapp.com/car?model=prisma&withdrawal_place=curitiba`
 
 Response: `status 200 - OK`
 
@@ -686,7 +712,8 @@ Response: `status 200 - OK`
       "review_date": "Thu, 12 Jul 2001 00:00:00 GMT",
       "withdrawal_place": "SHOPPING CURITIBA",
       "city": "CURITIBA",
-      "state": "PR"
+      "state": "PR",
+      "license_plate": "ABC1234"
     }
   ]
 ```
@@ -715,7 +742,8 @@ Response: `status 200 - OK`
     "review_date": "Thu, 12 Jul 2001 00:00:00 GMT",
     "withdrawal_place": "SHOPPING CURITIBA",
     "city": "CURITIBA",
-    "state": "PR"
+    "state": "PR",
+    "license_plate": "ABC1234"
   },
   "date_ocupied": [],
   "avaliations": []

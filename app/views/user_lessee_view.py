@@ -8,9 +8,9 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from http import HTTPStatus
 from app.exc.incorrect_keys_error import IncorrectKeysError
-from app.services.user_lessee_services import post_user_lessee_by_data, search_user_lessee_by_id, delete_user_lessee_by_id, update_user_lessee_by_id, login_user_lessee
+from app.services.user_lessee_services import post_user_lessee_by_data, search_user_lessee_by_id, delete_user_lessee_by_id, update_user_lessee_by_id, login_user_lessee 
 
-bp = Blueprint("lesse",__name__, url_prefix="/lessee")
+bp = Blueprint("lessee",__name__, url_prefix="/lessee")
 
 @bp.post("/register")
 def post_user_lessee_register():

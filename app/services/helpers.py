@@ -196,5 +196,5 @@ def transform_to_uppercase(data: dict):
 
     return(data_upper)
 
-def format_phone_number(data: dict) -> str:
-    return "".join(re.findall('[0-9]', data.get("insurer_number")))
+def format_phone_number(phone_number: str) -> str:
+    return "".join(re.findall('[0-9]', phone_number))

@@ -13,7 +13,7 @@ from ipdb import set_trace
 
 
 def post_user_locator_by_data(data):
-    required_keys = ["email", "password", "cpf", "name", "last_name", "address", "cep", "phone_number"]
+    required_keys = ["email", "password", "cpf", "phone_number", "name", "last_name", "address", "cep"]
     check_incorrect_keys(data, required_keys)
 
     cpf = format_cpf(data)
