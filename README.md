@@ -169,7 +169,8 @@ table to get the data of user locator
 	"last_name": "test",
 	"cpf": "111.222.333-44",
 	"address": "shooping paralela em frente ao meu delicioso freezer de salgados",
-	"cep": "48004-124"
+	"cep": "48004-124",
+    "phone_number": "(44)99988-5544",
 }
 ```
 
@@ -182,7 +183,8 @@ Response: `status 201 - CREATED`
     "last_name": "test",
     "email": "email@email.com",
     "address": "shooping paralela em frente ao meu delicioso freezer de salgados",
-	"cep": "48004-124"
+	"cep": "48004-124",
+    "phone_number": "(44)99988-5544",
 }
 ```
 
@@ -212,7 +214,8 @@ Response: `status 200 - OK`
         "last_name": "test",
         "email": "email@email.com",
          "address": "shooping paralela em frente ao meu delicioso freezer de salgados",
-	    "cep": "48004-124"
+	    "cep": "48004-124",
+        "phone_number": "(44)99988-5544",
     },
     "access_token": "eyJUzI1NiJ9.eyJmcmVzaCI6ZmFsc2Us2VyINnOSwiZXhwIjoxNjI2NTkxMTE5fQ.AOpSzar1EoWt2Uyp0jZM"
 }
@@ -238,7 +241,8 @@ Response: `status 200 - OK`
         "last_name": "test",
         "email": "email@email.com",
         "address": "shooping paralela em frente ao meu delicioso freezer de salgados",
-	    "cep": "48004-124"
+	    "cep": "48004-124",
+        "phone_number": "(44)99988-5544",
     },
     "avaliations_received": [],
     "avaliations_give": []
@@ -287,7 +291,8 @@ Response: `status 200 - OK`
     "last_name": "test",
     "address": "shooping paralela em frente ao meu delicioso freezer de salgados",
 	"cep": "48004-124",
-    "email": "new@email.com"
+    "email": "new@email.com",
+    "phone_number": "(44)99988-5544",
 }
 ```
 
